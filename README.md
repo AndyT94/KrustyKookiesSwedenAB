@@ -37,5 +37,69 @@ Shipments(<strong><em>order_id</em></strong>, <strong><em>pallet_id</em></strong
 The relations are in BCNF since they have no functional dependencies except for the key dependencies.
 
 ## SQL statements
+CREATE TABLE Customers (
+  customer_name      TEXT,
+  address            TEXT NOT NULL,
+  PRIMARY KEY (customer_name)
+);
+
+CREATE TABLE RawMaterials (
+  material_name      TEXT,
+  material_amount    INTEGER CHECK (material_amount >= 0),
+  PRIMARY KEY (material_name)
+);
+
+CREATE TABLE RawDeliveries (
+  delivery_date         DATE,
+  material_name         TEXT,
+  delivery_amount       INTEGER CHECK (delivery_amount >= 0),
+  PRIMARY KEY (delivery_date, material_name),
+  FOREIGN KEY (material_name) REFERENCES RawMaterials(material_name)
+);
+
+CREATE TABLE Recipes (
+  recipe_name    TEXT,
+  PRIMARY KEY (recipe_name)
+);
+
+CREATE TABLE Ingredients (
+  material_name    TEXT,
+  recipe_name      TEXT,
+  quantity         INTEGER CHECK (quantity > 0),
+  unit             VARCHAR(10) NOT NULL,
+  PRIMARY KEY (material_name, recipe_name),
+  FOREIGN KEY (material_name) REFERENCES RawMaterials(material_name),
+  FOREIGN KEY (recipe_name) REFERENCES Recipes(recipe_name)
+);
+
+CREATE TABLE Orders (
+  order_id          INTEGER AUTO_INCREMENT,
+  recipe_name       TEXT,
+  amount            INTEGER CHECK (amount > 0),
+  customer_name     TEXT,
+  delivery_by_date  DATE NOT NULL,
+  PRIMARY KEY (order_id, recipe_name),
+  FOREIGN KEY (recipe_name) REFERENCES Recipes(recipe_name),
+  FOREIGN KEY (customer_name) REFERENCES Customers(customer_name)
+);
+
+CREATE TABLE Pallets (
+  pallet_id       INTEGER AUTO_INCREMENT,
+  location        TEXT NOT NULL,
+  production_date DATE NOT NULL,
+  blocked         BOOLEAN,
+  recipe_name     TEXT,
+  PRIMARY KEY (pallet_id),
+  FOREIGN KEY (recipe_name) REFERENCES Recipes(recipe_name)
+);
+
+CREATE TABLE Shipments (
+  order_id          INTEGER,
+  pallet_id         INTEGER,
+  date_of_delivery  DATE,
+  PRIMARY KEY (order_id, pallet_id),
+  FOREIGN KEY (pallet_id) REFERENCES Pallets(pallet_id),
+  FOREIGN KEY (order_id) REFERENCES Orders(order_id)
+);
 
 ## Users manual
