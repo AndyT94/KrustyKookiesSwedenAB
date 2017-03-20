@@ -28,7 +28,7 @@ Orders(<strong>order_id</strong>, <strong>recipe_name</strong>, amount, <em>cust
 
 Pallets(<strong>pallet_id</strong>, location, production_date, blocked)
 
-Shipments(<strong><em>order_id</em></strong>date_of_delivery)
+Shipments(<strong><em>order_id</em></strong>, date_of_delivery)
 
 ## SQL statements
 
