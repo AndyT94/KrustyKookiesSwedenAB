@@ -23,7 +23,7 @@ RawDeliveries(<strong>delivery_date</strong>, <strong><em>material_name</em></st
 
 Recipes(<strong>recipe_name</strong>)
 
-Ingredients(<strong><em>material_name</em></strong>, <strong><em>recipe_name</em></strong>, quantity)
+Ingredients(<strong><em>material_name</em></strong>, <strong><em>recipe_name</em></strong>, quantity, unit)
 
 Orders(<strong>order_id</strong>, <strong><em>recipe_name</em></strong>, amount, <em>customer_name</em>, deliver_by_date)
 
