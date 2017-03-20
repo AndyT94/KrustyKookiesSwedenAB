@@ -16,21 +16,21 @@ PRAGMA foreign_keys=ON;
 -- Create the tables.
 CREATE TABLE Customers (
   customer_name      TEXT,
-  address            TEXT,
+  address            TEXT NOT NULL,
   primary key (customer_name)
 );
 
 CREATE TABLE RawMaterials (
   material_name      TEXT,
-  material_amount    INTEGER,
+  material_amount    INTEGER CHECK material_amount >= 0,
   primary key (material_name)
 );
 
 CREATE TABLE RawDeliveries (
   delivery_date         date,
   material_name         TEXT,
-  delivery_amount       INTEGER,
-  primary key(delivery_date,material_name)
+  delivery_amount       INTEGER CHECK delivery_amount >= 0,
+  primary key(delivery_date, material_name)
   foreign key (material_name) references RawMaterials(material_name)
 );
 
@@ -42,31 +42,33 @@ CREATE TABLE Recipes (
 CREATE TABLE Ingredients (
   material_name    TEXT,
   recipe_name      TEXT,
-  quantity         INTEGER,
+  quantity         INTEGER CHECK quantity > 0,
   primary key (material_name,recipe_name),
   foreign key (material_name) references RawMaterials(material_name),
   foreign key (recipe_name) references Recipes(recipe_name)
 );
+
 CREATE TABLE Orders (
-  order_id          INTEGER,
+  order_id          INTEGER AUTOINCREMENT,
   recipe_name       TEXT,
-  amount            INTEGER,
+  amount            INTEGER CHECK amount > 0,
   customer_name     TEXT,
-  delivery_by_date  date,
-  primary key (order_id,recipe_name),
+  delivery_by_date  date NOT NULL,
+  primary key (order_id, recipe_name),
   foreign key (recipe_name) references Recipes(recipe_name),
   foreign key (customer_name) references Customers(customer_name)
 );
 
 CREATE TABLE Pallets (
-  pallet_id       INTEGER,
-  location        TEXT,
-  production_date date,
+  pallet_id       INTEGER AUTOINCREMENT,
+  location        TEXT NOT NULL,
+  production_date date NOT NULL,
   blocked         boolean,
   recipe_name     TEXT,
   primary key (pallet_id),
   foreign key (recipe_name) references Recipes(recipe_name)
 );
+
 CREATE TABLE Shipments (
   order_id          INTEGER,
   pallet_id         INTEGER,
