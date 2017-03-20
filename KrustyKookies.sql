@@ -90,7 +90,7 @@ INSERT INTO Customers (customer_name, address) VALUES
 ('Gästkakor AB', 'Hässleholm'),
 ('Skånekakor AB', 'Perstorp');
 
-INSERT INTO Ingredients (material_name, recipe_name, quantity, unit) VALUES
+INSERT INTO Ingredients (material_name, recipe_name, quantity) VALUES
 ('Nut ring', 'Flour', 450),
 ('Nut ring', 'Butter', 450),
 ('Nut ring', 'Icing sugar', 190),
