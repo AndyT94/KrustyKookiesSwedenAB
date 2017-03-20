@@ -14,7 +14,7 @@ Aleksandar Simeunovic D13, dat13asi@student.lu.se
 ## E/R diagram
 
 ## Relational model
-Customers(<strong>customer_name, address)
+Customers(<strong>customer_name</strong>, address)
 
 
 ## SQL statements
