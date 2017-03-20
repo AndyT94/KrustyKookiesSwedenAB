@@ -82,12 +82,12 @@ CREATE TABLE Shipments (
 INSERT INTO Customers (customer_name, address) VALUES
 ('Finkakor AB', 'Helsingborg'),
 ('Småbröd AB', 'Malmö'),
-('Kaffebröd AB', 'Landskorna'),
+('Kaffebröd AB', 'Landskrona'),
 ('Bjudkakor AB', 'Ystad'),
 ('Klaskakor AB', 'Trelleborg'),
 ('Partykakor AB', 'Kristianstad'),
 ('Gästkakor AB', 'Hässleholm'),
-('Skånekakor AB', 'Peterstorp');
+('Skånekakor AB', 'Perstorp');
 
 INSERT INTO Ingredients (material_name, recipe_name, quantity) VALUES
 ('Nut ring', 'Flour', 450),
