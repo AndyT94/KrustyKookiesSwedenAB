@@ -15,11 +15,17 @@ Aleksandar Simeunovic D13, dat13asi@student.lu.se
 
 ## Relational model
 Customers(<strong>customer_name</strong>, address)
+
 RawMaterials(<strong>material_name</strong>, material_amount)
+
 RawDeliveries(<strong>delivery_date</strong>, <strong><em>material_name</em></strong>, delivery_amount)
+
 Recipes(<strong>recipe_name</strong>)
+
 Ingredients(<strong><em>material_name</em></strong>, <strong><em>recipe_name</em></strong>, quantity)
+
 Orders(<strong>order_id</strong>, <strong>recipe_name</strong>, amount, <em>customer_name</em>, deliver_date)
+
 Pallets(<strong>pallet_id</strong>, location, production_date, blocked)
 
 ## SQL statements
