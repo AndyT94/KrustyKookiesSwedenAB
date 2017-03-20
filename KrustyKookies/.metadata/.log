@@ -1,0 +1,28 @@
+!SESSION 2017-03-20 11:57:54.607 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_101
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os linux -ws gtk -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2017-03-20 11:58:00.201
+!MESSAGE Unable to acquire PluginConverter service during generation for: /h/d1/l/dat13at1/.eclipse/org.eclipse.platform_4.5.0_1342667961_linux_gtk_x86_64/plugins/edu.buffalo.cse.green_3.1.0.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2017-03-20 11:58:00.241
+!MESSAGE Unable to acquire PluginConverter service during generation for: /h/d1/l/dat13at1/.eclipse/org.eclipse.platform_4.5.0_1342667961_linux_gtk_x86_64/plugins/edu.buffalo.cse.green.relationship.realization_3.1.0.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2017-03-20 11:58:00.278
+!MESSAGE Unable to acquire PluginConverter service during generation for: /h/d1/l/dat13at1/.eclipse/org.eclipse.platform_4.5.0_1342667961_linux_gtk_x86_64/plugins/edu.buffalo.cse.green.relationship.composition_3.1.0.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2017-03-20 11:58:00.306
+!MESSAGE Unable to acquire PluginConverter service during generation for: /h/d1/l/dat13at1/.eclipse/org.eclipse.platform_4.5.0_1342667961_linux_gtk_x86_64/plugins/edu.buffalo.cse.green.relationship.association_3.1.0.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2017-03-20 11:58:00.355
+!MESSAGE Unable to acquire PluginConverter service during generation for: /h/d1/l/dat13at1/.eclipse/org.eclipse.platform_4.5.0_1342667961_linux_gtk_x86_64/plugins/edu.buffalo.cse.green.relationship.generalization_3.1.0.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2017-03-20 11:58:00.382
+!MESSAGE Unable to acquire PluginConverter service during generation for: /h/d1/l/dat13at1/.eclipse/org.eclipse.platform_4.5.0_1342667961_linux_gtk_x86_64/plugins/edu.buffalo.cse.green.relationship.dependency_3.1.0.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2017-03-20 11:58:00.430
+!MESSAGE Unable to acquire PluginConverter service during generation for: /h/d1/l/dat13at1/.eclipse/org.eclipse.platform_4.5.0_1342667961_linux_gtk_x86_64/plugins/edu.buffalo.cse.green.help_3.1.0.RC2.
