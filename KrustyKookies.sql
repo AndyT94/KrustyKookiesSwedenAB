@@ -23,7 +23,7 @@ CREATE TABLE Customers (
 CREATE TABLE RawMaterials (
   material_name      TEXT,
   material_amount    INTEGER CHECK (material_amount >= 0),
-  unit             VARCHAR(10) NOT NULL,
+  unit               VARCHAR(10) NOT NULL,
   PRIMARY KEY (material_name)
 );
 
@@ -90,7 +90,36 @@ INSERT INTO Customers (customer_name, address) VALUES
 ('Gästkakor AB', 'Hässleholm'),
 ('Skånekakor AB', 'Perstorp');
 
-INSERT INTO Ingredients (material_name, recipe_name, quantity) VALUES
+INSERT INTO RawMaterials (material_name, material_amount, unit) VALUES
+('Flour', 4500, 'g'),
+('Butter', 4500, 'g'),
+('Icing sugar', 1900, 'g'),
+('Roasted, chopped nuts', 2250, 'g'),
+('Fine-ground nuts', 0, 'g'),
+('Ground, roasted nuts', 0, 'g'),
+('Bread crumbs', 0, 'g'),
+('Sugar', 0, 'g'),
+('Egg whites', 0, 'dl'),
+('Chocolate', 0, 'g'),
+('Marzipan', 0, 'g'),
+('Eggs', 0, 'g'),
+('Potato starch', 0, 'g'),
+('Wheat flour', 0, 'g'),
+('Sodium bicarbonate', 0, 'g'),
+('Vanilla', 0, 'g'),
+('Chopped almonds', 0, 'g'),
+('Cinnamon', 0, 'g'),
+('Vanilla sugar', 0, 'g');
+
+INSERT INTO Recipes (recipe_name) VALUES
+('Nut ring'),
+('Nut cookie'),
+('Amneris'),
+('Tango'),
+('Almond delight'),
+('Berliner');
+
+INSERT INTO Ingredients (recipe_name, material_name, quantity) VALUES
 ('Nut ring', 'Flour', 450),
 ('Nut ring', 'Butter', 450),
 ('Nut ring', 'Icing sugar', 190),
