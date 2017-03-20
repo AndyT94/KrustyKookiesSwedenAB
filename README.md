@@ -1,4 +1,4 @@
-# KrustyKookiesSwedenAB
+# Krusty Kookies Sweden AB
 EDA216 - Database Technology Project
 
 ## Authors
