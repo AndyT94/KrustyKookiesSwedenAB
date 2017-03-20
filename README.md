@@ -13,6 +13,7 @@ Aleksandar Simeunovic D13, dat13asi@student.lu.se
 ## System outline
 
 ## E/R diagram
+An E/R diagram of the system can be seen in the figure below.
 ![ER](ER.png)
 
 ## Relational model
