@@ -37,6 +37,8 @@ Shipments(<strong><em>order_id</em></strong>, <strong><em>pallet_id</em></strong
 The relations are in BCNF since they have no functional dependencies except for the key dependencies.
 
 ## SQL statements
+The SQL statements for creating the tables can be seen below.
+
 ```
 CREATE TABLE Customers (
   customer_name      TEXT,
