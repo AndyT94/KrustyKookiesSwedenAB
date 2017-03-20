@@ -24,9 +24,11 @@ Recipes(<strong>recipe_name</strong>)
 
 Ingredients(<strong><em>material_name</em></strong>, <strong><em>recipe_name</em></strong>, quantity)
 
-Orders(<strong>order_id</strong>, <strong>recipe_name</strong>, amount, <em>customer_name</em>, deliver_date)
+Orders(<strong>order_id</strong>, <strong>recipe_name</strong>, amount, <em>customer_name</em>, deliver_by_date)
 
 Pallets(<strong>pallet_id</strong>, location, production_date, blocked)
+
+Shipments(<strong><em>order_id</em></strong>date_of_delivery)
 
 ## SQL statements
 
