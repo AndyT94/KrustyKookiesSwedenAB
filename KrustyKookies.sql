@@ -2,51 +2,77 @@
 -- Disable foreign key checks, so the tables can
 -- be dropped in arbitrary order.
 PRAGMA foreign_keys=OFF;
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS reservations;
-DROP TABLE IF EXISTS performances;
-DROP TABLE IF EXISTS movies;
-DROP TABLE IF EXISTS theaters;
+DROP TABLE IF EXISTS Customers;
+DROP TABLE IF EXISTS RawMaterials;
+DROP TABLE IF EXISTS RawDeliveries;
+DROP TABLE IF EXISTS Recipes;
+DROP TABLE IF EXISTS Ingredients;
+DROP TABLE IF EXISTS Orders;
+DROP TABLE IF EXISTS Pallets;
+DROP TABLE IF EXISTS Shipments;
 
 PRAGMA foreign_keys=ON;
 
 -- Create the tables.
-CREATE TABLE users (
-  username      VARCHAR(15),
-  name          TEXT NOT NULL,
-  address       TEXT,
-  phone_number  CHAR(10) NOT NULL,
-  primary key (username)
+CREATE TABLE Customers (
+  customer_name      TEXT,
+  address            TEXT,
+  primary key (customer_name)
 );
 
-CREATE TABLE performances (
-  name    TEXT,
-  date    DATE,
-  theater_name TEXT,
-  available_seats INTEGER check (available_seats >= 0),
-  primary key (name, date),
-  foreign key (name) references movies(name),
-  foreign key (theater_name) references theaters(name)
+CREATE TABLE RawMaterials (
+  material_name      TEXT,
+  material_amount    INTEGER,
+  primary key (material_name)
 );
 
-CREATE TABLE reservations (
-  reservation_number    INTEGER PRIMARY KEY,
-  username              VARCHAR(15),
-  movie_name            TEXT,
-  date                  DATE,
-  foreign key (movie_name, date) references performances(name, date),
-  foreign key (username) references users(username)
+CREATE TABLE RawDeliveries (
+  delivery_date         date,
+  material_name         TEXT,
+  delivery_amount       INTEGER,
+  primary key(delivery_date,material_name)
+  foreign key (material_name) references RawMaterials(material_name)
 );
 
-CREATE TABLE movies (
-  name    TEXT,
-  primary key (name)
+CREATE TABLE Recipes (
+  recipe_name    TEXT,
+  primary key (recipe_name)
 );
 
-CREATE TABLE theaters (
-  name    TEXT,
-  seats   INTEGER NOT NULL CHECK (seats > 0),
-  primary key (name)
+CREATE TABLE Ingredients (
+  material_name    TEXT,
+  recipe_name      TEXT,
+  quantity         INTEGER,
+  primary key (material_name,recipe_name),
+  foreign key (material_name) references RawMaterials(material_name),
+  foreign key (recipe_name) references Recipes(recipe_name)
+);
+CREATE TABLE Orders (
+  order_id          INTEGER,
+  recipe_name       TEXT,
+  amount            INTEGER,
+  customer_name     TEXT,
+  delivery_by_date  date,
+  primary key (order_id,recipe_name),
+  foreign key (recipe_name) references Recipes(recipe_name),
+  foreign key (customer_name) references Customers(customer_name)
+);
+
+CREATE TABLE Pallets (
+  pallet_id       INTEGER,
+  location        TEXT,
+  production_date date,
+  blocked         boolean,
+  recipe_name     TEXT,
+  primary key (pallet_id),
+  foreign key (recipe_name) references Recipes(recipe_name)
+);
+CREATE TABLE Shipments (
+  order_id          INTEGER,
+  pallet_id         INTEGER,
+  date_of_delivery  date,
+  primary key (order_id),
+  foreign key (pallet_id) references Pallets(pallet_id)
 );
 
 -- Insert data into the tables.
