@@ -3,6 +3,7 @@ EDA216 - Database Technology Project
 
 ## Authors
 Andy Truong D13, dat13at1@student.lu.se
+
 Aleksandar Simeunovic D13, dat13asi@student.lu.se
 
 ## Introduction
@@ -29,6 +30,8 @@ Orders(<strong>order_id</strong>, <strong>recipe_name</strong>, amount, <em>cust
 Pallets(<strong>pallet_id</strong>, location, production_date, blocked)
 
 Shipments(<strong><em>order_id</em></strong>, date_of_delivery)
+
+The relations are in BCNF since they have no functional dependencies except for the key dependencies.
 
 ## SQL statements
 
