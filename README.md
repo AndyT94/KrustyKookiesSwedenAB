@@ -37,7 +37,7 @@ Shipments(<strong><em>order_id</em></strong>, <strong><em>pallet_id</em></strong
 The relations are in BCNF since they have no functional dependencies except for the key dependencies.
 
 ## SQL statements
-<div>
+```
 CREATE TABLE Customers (
   customer_name      TEXT,
   address            TEXT NOT NULL,
@@ -102,6 +102,6 @@ CREATE TABLE Shipments (
   FOREIGN KEY (pallet_id) REFERENCES Pallets(pallet_id),
   FOREIGN KEY (order_id) REFERENCES Orders(order_id)
 );
-</div>
+```
 
 ## Users manual
