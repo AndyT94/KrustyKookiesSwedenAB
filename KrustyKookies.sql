@@ -17,35 +17,35 @@ PRAGMA foreign_keys=ON;
 CREATE TABLE Customers (
   customer_name      TEXT,
   address            TEXT NOT NULL,
-  primary key (customer_name)
+  PRIMARY KEY (customer_name)
 );
 
 CREATE TABLE RawMaterials (
   material_name      TEXT,
   material_amount    INTEGER CHECK material_amount >= 0,
-  primary key (material_name)
+  PRIMARY KEY (material_name)
 );
 
 CREATE TABLE RawDeliveries (
   delivery_date         date,
   material_name         TEXT,
   delivery_amount       INTEGER CHECK delivery_amount >= 0,
-  primary key(delivery_date, material_name)
-  foreign key (material_name) references RawMaterials(material_name)
+  PRIMARY KEY (delivery_date, material_name),
+  FOREIGN KEY (material_name) REFERENCES RawMaterials(material_name)
 );
 
 CREATE TABLE Recipes (
   recipe_name    TEXT,
-  primary key (recipe_name)
+  PRIMARY KEY (recipe_name)
 );
 
 CREATE TABLE Ingredients (
   material_name    TEXT,
   recipe_name      TEXT,
   quantity         INTEGER CHECK quantity > 0,
-  primary key (material_name,recipe_name),
-  foreign key (material_name) references RawMaterials(material_name),
-  foreign key (recipe_name) references Recipes(recipe_name)
+  PRIMARY KEY (material_name, recipe_name),
+  FOREIGN KEY (material_name) REFERENCES RawMaterials(material_name),
+  FOREIGN KEY (recipe_name) REFERENCES Recipes(recipe_name)
 );
 
 CREATE TABLE Orders (
@@ -54,9 +54,9 @@ CREATE TABLE Orders (
   amount            INTEGER CHECK amount > 0,
   customer_name     TEXT,
   delivery_by_date  date NOT NULL,
-  primary key (order_id, recipe_name),
-  foreign key (recipe_name) references Recipes(recipe_name),
-  foreign key (customer_name) references Customers(customer_name)
+  PRIMARY KEY (order_id, recipe_name),
+  FOREIGN KEY (recipe_name) REFERENCES Recipes(recipe_name),
+  FOREIGN KEY (customer_name) REFERENCES Customers(customer_name)
 );
 
 CREATE TABLE Pallets (
@@ -65,16 +65,17 @@ CREATE TABLE Pallets (
   production_date date NOT NULL,
   blocked         boolean,
   recipe_name     TEXT,
-  primary key (pallet_id),
-  foreign key (recipe_name) references Recipes(recipe_name)
+  PRIMARY KEY (pallet_id),
+  FOREIGN KEY (recipe_name) REFERENCES Recipes(recipe_name)
 );
 
 CREATE TABLE Shipments (
   order_id          INTEGER,
   pallet_id         INTEGER,
   date_of_delivery  date,
-  primary key (order_id, pallet_id),
-  foreign key (pallet_id) references Pallets(pallet_id)
+  PRIMARY KEY (order_id, pallet_id),
+  FOREIGN KEY (pallet_id) REFERENCES Pallets(pallet_id),
+  FOREIGN KEY (order_id) REFERENCES Orders(order_id)
 );
 
 -- Insert data into the tables.
