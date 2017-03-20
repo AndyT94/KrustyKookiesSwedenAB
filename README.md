@@ -20,13 +20,13 @@ An E/R diagram of the system can be seen in the figure below.
 ## Relational model
 Customers(<strong>customer_name</strong>, address)
 
-RawMaterials(<strong>material_name</strong>, material_amount)
+RawMaterials(<strong>material_name</strong>, material_amount, unit)
 
 RawDeliveries(<strong>delivery_date</strong>, <strong><em>material_name</em></strong>, delivery_amount)
 
 Recipes(<strong>recipe_name</strong>)
 
-Ingredients(<strong><em>material_name</em></strong>, <strong><em>recipe_name</em></strong>, quantity, unit)
+Ingredients(<strong><em>material_name</em></strong>, <strong><em>recipe_name</em></strong>, quantity)
 
 Orders(<strong>order_id</strong>, <strong><em>recipe_name</em></strong>, amount, <em>customer_name</em>, deliver_by_date)
 
