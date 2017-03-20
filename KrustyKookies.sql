@@ -27,7 +27,7 @@ CREATE TABLE RawMaterials (
 );
 
 CREATE TABLE RawDeliveries (
-  delivery_date         date,
+  delivery_date         DATE,
   material_name         TEXT,
   delivery_amount       INTEGER CHECK delivery_amount >= 0,
   PRIMARY KEY (delivery_date, material_name),
@@ -53,7 +53,7 @@ CREATE TABLE Orders (
   recipe_name       TEXT,
   amount            INTEGER CHECK amount > 0,
   customer_name     TEXT,
-  delivery_by_date  date NOT NULL,
+  delivery_by_date  DATE NOT NULL,
   PRIMARY KEY (order_id, recipe_name),
   FOREIGN KEY (recipe_name) REFERENCES Recipes(recipe_name),
   FOREIGN KEY (customer_name) REFERENCES Customers(customer_name)
@@ -62,8 +62,8 @@ CREATE TABLE Orders (
 CREATE TABLE Pallets (
   pallet_id       INTEGER AUTOINCREMENT,
   location        TEXT NOT NULL,
-  production_date date NOT NULL,
-  blocked         boolean,
+  production_date DATE NOT NULL,
+  blocked         BOOLEAN,
   recipe_name     TEXT,
   PRIMARY KEY (pallet_id),
   FOREIGN KEY (recipe_name) REFERENCES Recipes(recipe_name)
@@ -72,7 +72,7 @@ CREATE TABLE Pallets (
 CREATE TABLE Shipments (
   order_id          INTEGER,
   pallet_id         INTEGER,
-  date_of_delivery  date,
+  date_of_delivery  DATE,
   PRIMARY KEY (order_id, pallet_id),
   FOREIGN KEY (pallet_id) REFERENCES Pallets(pallet_id),
   FOREIGN KEY (order_id) REFERENCES Orders(order_id)
