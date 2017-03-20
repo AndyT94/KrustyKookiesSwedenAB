@@ -13,6 +13,7 @@ Aleksandar Simeunovic D13, dat13asi@student.lu.se
 ## System outline
 
 ## E/R diagram
+![ER](ER.png)
 
 ## Relational model
 Customers(<strong>customer_name</strong>, address)
