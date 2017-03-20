@@ -119,19 +119,6 @@ INSERT INTO Ingredients (material_name,recipe_name,delivery_amount) VALUES
 ('Berliner','Eggs',50),
 ('Berliner','Vanilla sugar',5),
 ('Berliner','Chocolate',50),
-
-
-
-
-
-
-
-
-INSERT INTO movies (name) VALUES
-
-
-
-
 -- And re-enable foreign key checks.
 
 PRAGMA foreign_key = on;
