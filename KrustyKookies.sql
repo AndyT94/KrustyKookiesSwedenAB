@@ -73,7 +73,7 @@ CREATE TABLE Shipments (
   order_id          INTEGER,
   pallet_id         INTEGER,
   date_of_delivery  date,
-  primary key (order_id),
+  primary key (order_id, pallet_id),
   foreign key (pallet_id) references Pallets(pallet_id)
 );
 

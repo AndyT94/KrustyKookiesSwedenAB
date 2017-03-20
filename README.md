@@ -29,7 +29,7 @@ Orders(<strong>order_id</strong>, <strong><em>recipe_name</em></strong>, amount,
 
 Pallets(<strong>pallet_id</strong>, location, production_date, blocked, <em>recipe_name</em>)
 
-Shipments(<strong><em>order_id</em></strong>, <em>pallet_id</em>, date_of_delivery)
+Shipments(<strong><em>order_id</em></strong>, <strong><em>pallet_id</em></strong>, date_of_delivery)
 
 The relations are in BCNF since they have no functional dependencies except for the key dependencies.
 
