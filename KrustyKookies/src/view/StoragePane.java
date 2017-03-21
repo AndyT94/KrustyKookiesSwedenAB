@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -30,7 +29,6 @@ public class StoragePane extends BasicPane {
 	public void entryActions() {
 		text.setText("");
 		List<RawMaterial> materials = db.getRawMaterials();
-		Collections.sort(materials);
 		text.append(String.format("%-21s\t %-5s\t %4s\n", "Raw material", "Amount", "Unit"));
 		text.append("\n");
 		for (RawMaterial r : materials) {

@@ -65,7 +65,7 @@ public class Database {
 	public List<RawMaterial> getRawMaterials() {
 		LinkedList<RawMaterial> materials = new LinkedList<RawMaterial>();
 		try {
-			String sql = "SELECT * FROM RawMaterials";
+			String sql = "SELECT * FROM RawMaterials ORDER BY material_name";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {

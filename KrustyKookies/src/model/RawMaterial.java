@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class RawMaterial implements Comparable<RawMaterial> {
 	public String name;
-	public float amount;
+	public double amount;
 	public String unit;
 	
 	public RawMaterial(ResultSet rs) throws SQLException {
