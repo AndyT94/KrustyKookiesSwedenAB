@@ -149,4 +149,22 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
+
+	public ArrayList<Pallet> getAllBlockedPallets() {
+		ArrayList<Pallet> list = new ArrayList<Pallet>();
+		try {
+			String sql = "SELECT * FROM pallets WHERE blocked = 'true'";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				list.add(new Pallet(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+		
+	}
+
+	
 }
