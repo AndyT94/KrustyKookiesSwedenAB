@@ -1,14 +1,15 @@
 package view;
 
-import java.awt.FlowLayout;
+
 import java.awt.GridLayout;
-import java.sql.ResultSet;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -17,6 +18,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import dbtLab3.ButtonAndMessagePanel;
 import model.Database;
 import model.Pallet;
 
@@ -83,6 +85,13 @@ public class PalletPane extends BasicPane {
 		return p;
 
 	}
+	
+	public JComponent createBottomPanel() {
+		JButton[] buttons = new JButton[2];
+		buttons[0] = new JButton("Show All Blocked Pallets");
+		buttons[1] = new JButton("Create loading bill");
+		return new ButtonAndMessagePanel(buttons, messageLabel, new ActionHandler());
+	}
 
 	public void entryActions() {
 		clearMessage();
@@ -92,7 +101,7 @@ public class PalletPane extends BasicPane {
 
 	private void fillPalletList() {
 		palletListModel.removeAllElements();
-		/* --- insert own code here --- */
+		
 		ArrayList<Pallet> pallets = db.getPallets();
 		for (Pallet p : pallets) {
 			palletListModel.addElement(p.recipe_name);
@@ -131,5 +140,36 @@ public class PalletPane extends BasicPane {
 			fields[RECIPE_NAME].setText(p.recipe_name);
 		}
 	}
+	
+	
+	/**
+	 * A class that listens for button clicks.
+	 */
+	class ActionHandler implements ActionListener {
+		/**
+		 * Called when the user clicks the Book ticket button. Books a ticket
+		 * for the current user to the selected performance (adds a booking to
+		 * the database).
+		 * 
+		 * @param e
+		 *            The event object (not used).
+		 */
+		public void actionPerformed(ActionEvent e) {
+			if (palletList.isSelectionEmpty()) {
+				displayMessage("");
+				return;
+			}
+			palletListModel.removeAllElements();
+			ArrayList<Pallet> pallets = db.getAllBlockedPallets();
+			for(Pallet p: pallets){
+			palletListModel.addElement(p.recipe_name);
+				
+			
+			}
+			
+		}
+	
 
+}
+	
 }
