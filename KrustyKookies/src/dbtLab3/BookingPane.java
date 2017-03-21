@@ -180,15 +180,7 @@ public class BookingPane extends BasicPane {
 			nameListModel.addElement(m.name);
 		}
 	}
-
-	/**
-	 * Fetch performance dates from the database and display them in the date
-	 * list.
-	 */
-	private void fillDateList() {
-		dateListModel.removeAllElements();
-		/* --- insert own code here --- */
-	}
+	
 
 	/**
 	 * Clear all text fields.
