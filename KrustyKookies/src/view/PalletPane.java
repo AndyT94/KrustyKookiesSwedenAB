@@ -17,44 +17,35 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import dbtLab3.CurrentUser;
-import dbtLab3.Movie;
-import dbtLab3.Performance;
 import model.Database;
 
-
-
 public class PalletPane extends BasicPane {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1;
-	
+
 	private JTextField[] fields;
 
 	private DefaultListModel<String> palletListModel;
 
 	private JList<String> palletList;
-	
+
 	private static final int LOCATION = 0;
-	
+
 	private static final int PRODUCTION_DATE = 1;
-	
+
 	private static final int BLOCKED = 2;
-	
+
 	private static final int RECIPE_NAME = 3;
-	
+
 	private static final int NBR_FIELDS = 4;
 
-
-	PalletPane(Database db){
+	PalletPane(Database db) {
 		super(db);
 	}
-	
-	
-	
-	
+
 	public JComponent createLeftPanel() {
 		palletListModel = new DefaultListModel<String>();
 
@@ -64,13 +55,12 @@ public class PalletPane extends BasicPane {
 		palletList.addListSelectionListener(new PalletSelectionListener());
 		JScrollPane p1 = new JScrollPane(palletList);
 
-
 		JPanel p = new JPanel();
 		p.setLayout(new GridLayout(1, 2));
 		p.add(p1);
 		return p;
 	}
-	
+
 	public JComponent createTopPanel() {
 		String[] texts = new String[NBR_FIELDS];
 		texts[LOCATION] = "Location";
@@ -86,22 +76,19 @@ public class PalletPane extends BasicPane {
 
 		JPanel input = new InputPanel(texts, fields);
 
-
 		JPanel p = new JPanel();
 		p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
 		p.add(input);
 		return p;
-		
-		
+
 	}
-	
+
 	public void entryActions() {
 		clearMessage();
 		fillPalletList();
 		clearFields();
 	}
 
-	
 	private void fillPalletList() {
 		palletListModel.removeAllElements();
 		/* --- insert own code here --- */
@@ -110,13 +97,13 @@ public class PalletPane extends BasicPane {
 			palletListModel.addElement(p.recipe_name);
 		}
 	}
-	
+
 	private void clearFields() {
 		for (int i = 0; i < fields.length; i++) {
 			fields[i].setText("");
 		}
 	}
-	
+
 	/**
 	 * A class that listens for clicks in the date list.
 	 */
@@ -136,7 +123,7 @@ public class PalletPane extends BasicPane {
 			String pallet_id = palletList.getSelectedValue();
 			/* --- insert own code here --- */
 			clearFields();
-			Pallet p = db.getPallets(pallet_id);
+			Pallet p = db.getPallet(pallet_id);
 			fields[LOCATION].setText(p.location);
 			fields[PRODUCTION_DATE].setText(p.production_date.toString());
 			fields[BLOCKED].setText(p.blocked.toString());
@@ -144,6 +131,4 @@ public class PalletPane extends BasicPane {
 		}
 	}
 
-	
-	
 }

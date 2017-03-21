@@ -3,6 +3,7 @@ package model;
 import java.sql.*;
 import java.util.*;
 
+import dbtLab3.Movie;
 import view.Pallet;
 
 /**
@@ -63,11 +64,11 @@ public class Database {
 	public boolean isConnected() {
 		return conn != null;
 	}
-	
+
 	public List<RawMaterial> getRawMaterials() {
 		LinkedList<RawMaterial> materials = new LinkedList<RawMaterial>();
 		try {
-			String sql = "SELECT * FROM RawMaterials";
+			String sql = "SELECT material_name, material_amount, unit FROM RawMaterials ORDER BY material_name";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -79,9 +80,9 @@ public class Database {
 		return materials;
 	}
 
-	public Pallet getPallets(String pallet_id) {
+	public Pallet getPallet(String pallet_id) {
 		try {
-			String sql = "SELECT * FROM pallets WHERE pallet_id = ?";
+			String sql = "SELECT pallet_id FROM pallets WHERE pallet_id = ?";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, pallet_id);
 			ResultSet rs = ps.executeQuery();
@@ -90,5 +91,38 @@ public class Database {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public List<RawMaterialDelivery> getRawMaterialsDeliveries() {
+		LinkedList<RawMaterialDelivery> deliveries = new LinkedList<RawMaterialDelivery>();
+		try {
+			String sql = "SELECT delivery_date, material_name, delivery_amount FROM RawDeliveries ORDER BY delivery_date";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				deliveries.add(new RawMaterialDelivery(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return deliveries;
+
+	}
+
+	public ArrayList<Pallet> getPallets() {
+		ArrayList<Pallet> list = new ArrayList<Pallet>();
+		try {
+			String sql = "SELECT * FROM pallets";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				list.add(new Pallet(rs));
+			}
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+		
 	}
 }

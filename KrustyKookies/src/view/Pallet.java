@@ -7,10 +7,10 @@ import java.util.Date;
 public class Pallet {
 	public int pallet_id;
 	public String location;
-	public Date production_date; 
+	public Date production_date;
 	public Boolean blocked;
 	public String recipe_name;
-	
+
 	public Pallet(ResultSet rs) throws SQLException {
 		this.pallet_id = rs.getInt("pallet_id");
 		this.location = rs.getString("location");

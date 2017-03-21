@@ -25,6 +25,9 @@ public class KookiesGUI {
         StoragePane storagePane = new StoragePane(db);
         tabbedPane.addTab("Raw material storage", null, storagePane, "The raw material storage");
         
+        DeliveryPane deliveryPane = new DeliveryPane(db);
+        tabbedPane.addTab("Raw deliveries", null, deliveryPane, "Raw material deliveries");
+        
         tabbedPane.setSelectedIndex(-1);
 
         frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
