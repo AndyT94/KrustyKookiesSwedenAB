@@ -95,7 +95,7 @@ public class Database {
 	public List<RawMaterialDelivery> getRawMaterialsDeliveries() {
 		LinkedList<RawMaterialDelivery> deliveries = new LinkedList<RawMaterialDelivery>();
 		try {
-			String sql = "SELECT delivery_date, material_name, delivery_amount FROM RawDeliveries ORDER BY delivery_date";
+			String sql = "SELECT delivery_date, material_name, delivery_amount FROM RawDeliveries ORDER BY delivery_date DESC";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -139,12 +139,29 @@ public class Database {
 
 	public void insertDelivery(String date, String material, String amount) {
 		try {
+			conn.setAutoCommit(false);
+			
 			String sql = "INSERT INTO RawDeliveries (delivery_date, material_name, delivery_amount) VALUES (?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, date);
 			ps.setString(2, material);
 			ps.setString(3, amount);
 			ps.executeUpdate();
+			
+			sql = "SELECT material_amount FROM RawMaterials WHERE material_name = ?";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, material);
+			ResultSet rs = ps.executeQuery();
+			double currAmount = rs.getFloat("material_amount");
+			Double newAmount = currAmount + Double.parseDouble(amount);
+
+			sql = "UPDATE RawMaterials SET material_amount = ? WHERE material_name = ?";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, newAmount.toString());
+			ps.setString(2, material);
+			ps.executeUpdate();
+			
+			conn.setAutoCommit(true);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
