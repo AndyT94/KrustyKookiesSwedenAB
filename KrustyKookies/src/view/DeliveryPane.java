@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -37,7 +38,8 @@ public class DeliveryPane extends BasicPane {
 		panel.setLayout(new BorderLayout());
 		text = new JTextArea();
 		text.setEditable(false);
-		panel.add(text);
+		JScrollPane scroll = new JScrollPane(text);
+		panel.add(scroll);
 		return panel;
 	}
 

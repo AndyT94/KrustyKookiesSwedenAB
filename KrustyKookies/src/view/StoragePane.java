@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import model.Database;
@@ -23,7 +24,8 @@ public class StoragePane extends BasicPane {
 		panel.setLayout(new BorderLayout());
 		text = new JTextArea();
 		text.setEditable(false);
-		panel.add(text);
+		JScrollPane scroll = new JScrollPane(text);
+		panel.add(scroll);
 		return panel;
 	}
 
