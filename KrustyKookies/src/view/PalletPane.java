@@ -18,6 +18,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import model.Database;
+import model.Pallet;
 
 public class PalletPane extends BasicPane {
 

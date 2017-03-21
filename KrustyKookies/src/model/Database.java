@@ -4,7 +4,6 @@ import java.sql.*;
 import java.util.*;
 
 import dbtLab3.Movie;
-import view.Pallet;
 
 /**
  * Database is a class that specifies the interface to the movie database. Uses
