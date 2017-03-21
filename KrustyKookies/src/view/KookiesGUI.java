@@ -22,6 +22,9 @@ public class KookiesGUI {
         tabbedPane = new JTabbedPane();
 		
         
+        PalletPane palletPane = new PalletPane(db);
+        tabbedPane.addTab("Pallets", null, palletPane, "The pallets");
+        
         StoragePane storagePane = new StoragePane(db);
         tabbedPane.addTab("Raw material storage", null, storagePane, "The raw material storage");
         

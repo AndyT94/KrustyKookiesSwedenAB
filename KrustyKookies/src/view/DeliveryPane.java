@@ -2,39 +2,35 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JList;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.JTextField;
 
 import model.Database;
-import model.RawMaterial;
 import model.RawMaterialDelivery;
 
-import javax.swing.JPopupMenu;
-import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class DeliveryPane extends BasicPane {
+	private static final long serialVersionUID = 1L;
 	private JTextArea text;
-	
-	
+	private JTextField[] textFields;
+	private static final int NBR_FIELDS = 3;
+	private static final int DATE = 0;
+	private static final int MATERIAL = 1;
+	private static final int AMOUNT = 2;
+
 	public DeliveryPane(Database db) {
 		super(db);
 	}
-	
+
 	public JComponent createMiddlePanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
@@ -43,22 +39,53 @@ public class DeliveryPane extends BasicPane {
 		panel.add(text);
 		return panel;
 	}
-	
-	@PostConstruct
-	public JComponent createBottomPanel() {
+
+	public JComponent createTopPanel() {
+		textFields = new JTextField[NBR_FIELDS];
 		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(NBR_FIELDS + 1, 1));
+
+		JPanel date = new JPanel(new BorderLayout());
+		JLabel dateLabel = new JLabel("Delivery date");
+		textFields[DATE] = new JTextField();
+		date.add(dateLabel, BorderLayout.WEST);
+		date.add(textFields[DATE], BorderLayout.CENTER);
+		panel.add(date);
+		
+		JPanel mat = new JPanel(new BorderLayout());
+		JLabel matLabel = new JLabel("Raw material");
+		textFields[MATERIAL] = new JTextField();
+		mat.add(matLabel, BorderLayout.WEST);
+		mat.add(textFields[MATERIAL], BorderLayout.CENTER);
+		panel.add(mat);
+		
+		JPanel amount = new JPanel(new BorderLayout());
+		JLabel amountLabel = new JLabel("Delivered amount");
+		textFields[AMOUNT] = new JTextField();
+		amount.add(amountLabel, BorderLayout.WEST);
+		amount.add(textFields[AMOUNT], BorderLayout.CENTER);
+		panel.add(amount);
+
 		JButton button = new JButton("Add Delivery");
+		ActionHandler actHand = new ActionHandler();
+		button.addActionListener(actHand);
 		panel.add(button);
 		return panel;
 	}
-	
+
 	public void entryActions() {
 		text.setText("");
 		List<RawMaterialDelivery> deliveries = db.getRawMaterialsDeliveries();
-		text.append(String.format("%-21s\t %-5s\t %4s\n", "Date", "Raw material", "Amount"));
+		text.append(String.format("%-8s\t %-21s\t %4s\n", "Date", "Raw material", "Amount"));
 		text.append("\n");
 		for (RawMaterialDelivery r : deliveries) {
-			text.append(String.format("%-21s\t %-5s\t %4s\n", r.date, r.material, r.amount));
+			text.append(String.format("%-8s\t %-21s\t %4s\n", r.date, r.material, r.amount));
+		}
+	}
+
+	class ActionHandler implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			
 		}
 	}
 }
