@@ -2,8 +2,6 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -141,7 +139,7 @@ public class DeliveryPane extends BasicPane {
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			format.setLenient(false);
 			try {
-				Date d = format.parse(date);
+				format.parse(date);
 			} catch (ParseException e) {
 				return false;
 			}
