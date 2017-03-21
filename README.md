@@ -49,6 +49,7 @@ CREATE TABLE Customers (
 CREATE TABLE RawMaterials (
   material_name      TEXT,
   material_amount    INTEGER CHECK (material_amount >= 0),
+  unit               VARCHAR(10) NOT NULL,
   PRIMARY KEY (material_name)
 );
 
@@ -69,7 +70,6 @@ CREATE TABLE Ingredients (
   material_name    TEXT,
   recipe_name      TEXT,
   quantity         INTEGER CHECK (quantity > 0),
-  unit             VARCHAR(10) NOT NULL,
   PRIMARY KEY (material_name, recipe_name),
   FOREIGN KEY (material_name) REFERENCES RawMaterials(material_name),
   FOREIGN KEY (recipe_name) REFERENCES Recipes(recipe_name)
