@@ -1,4 +1,6 @@
-package krustykookies;
+package model;
+
+import view.KookiesGUI;
 
 public class Krustykookies {
     public static void main(String[] args) {

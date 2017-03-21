@@ -1,4 +1,6 @@
-package krustykookies;
+package view;
+
+import model.Database;
 
 public class KookiesGUI {
 	private Database db;
