@@ -1,6 +1,5 @@
 package view;
 
-
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,6 +44,8 @@ public class PalletPane extends BasicPane {
 
 	private static final int NBR_FIELDS = 4;
 
+	private JButton[] buttons;
+
 	PalletPane(Database db) {
 		super(db);
 	}
@@ -85,12 +86,14 @@ public class PalletPane extends BasicPane {
 		return p;
 
 	}
-	
+
 	public JComponent createBottomPanel() {
-		JButton[] buttons = new JButton[2];
+		buttons = new JButton[2];
 		buttons[0] = new JButton("Show All Blocked Pallets");
-		buttons[1] = new JButton("Create loading bill");
-		return new ButtonAndMessagePanel(buttons, messageLabel, new ActionHandler());
+		buttons[1] = new JButton("Show All Pallets");
+
+		return new ButtonAndMessagePanel(buttons, messageLabel,
+				new ActionHandler());
 	}
 
 	public void entryActions() {
@@ -101,7 +104,7 @@ public class PalletPane extends BasicPane {
 
 	private void fillPalletList() {
 		palletListModel.removeAllElements();
-		
+
 		ArrayList<Pallet> pallets = db.getPallets();
 		for (Pallet p : pallets) {
 			palletListModel.addElement(p.recipe_name);
@@ -140,8 +143,7 @@ public class PalletPane extends BasicPane {
 			fields[RECIPE_NAME].setText(p.recipe_name);
 		}
 	}
-	
-	
+
 	/**
 	 * A class that listens for button clicks.
 	 */
@@ -155,21 +157,30 @@ public class PalletPane extends BasicPane {
 		 *            The event object (not used).
 		 */
 		public void actionPerformed(ActionEvent e) {
+			buttons[0].setActionCommand("First");
+			buttons[1].setActionCommand("Second");
 			if (palletList.isSelectionEmpty()) {
 				displayMessage("");
 				return;
 			}
-			palletListModel.removeAllElements();
-			ArrayList<Pallet> pallets = db.getAllBlockedPallets();
-			for(Pallet p: pallets){
-			palletListModel.addElement(p.recipe_name);
-				
-			
-			}
-			
-		}
-	
+			if (e.getActionCommand().equals("First")) {
+				palletListModel.removeAllElements();
+				ArrayList<Pallet> pallets = db.getAllBlockedPallets();
+				for (Pallet p : pallets) {
+					palletListModel.addElement(p.recipe_name);
 
-}
-	
-}
+				}
+				displayMessage("This is all the blocked pallets!!!");
+				
+			}
+				if (e.getActionCommand().equals("Second")) {
+					fillPalletList();
+
+				}
+
+			}
+
+		}
+	}
+
+
