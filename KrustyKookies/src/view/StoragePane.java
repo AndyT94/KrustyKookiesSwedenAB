@@ -22,6 +22,7 @@ public class StoragePane extends BasicPane {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		text = new JTextArea();
+		text.setEditable(false);
 		panel.add(text);
 		return panel;
 	}

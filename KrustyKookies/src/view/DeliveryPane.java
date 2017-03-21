@@ -39,6 +39,7 @@ public class DeliveryPane extends BasicPane {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		text = new JTextArea();
+		text.setEditable(false);
 		panel.add(text);
 		return panel;
 	}
@@ -47,12 +48,13 @@ public class DeliveryPane extends BasicPane {
 	public JComponent createBottomPanel() {
 		JPanel panel = new JPanel();
 		JButton button = new JButton("Add Delivery");
+		panel.add(button);
 		return panel;
 	}
 	
 	public void entryActions() {
 		text.setText("");
-		List<RawMaterialDelivery> deliveries = db.getRawMaterials();
+		List<RawMaterialDelivery> deliveries = db.getRawMaterialsDeliveries();
 		text.append(String.format("%-21s\t %-5s\t %4s\n", "Date", "Raw material", "Amount"));
 		text.append("\n");
 		for (RawMaterialDelivery r : deliveries) {
