@@ -121,6 +121,32 @@ public class Database {
 			e.printStackTrace();
 		}
 		return list;
-		
+
+	}
+
+	public boolean hasRawMaterial(String material) {
+		try {
+			String sql = "SELECT * FROM RawMaterials WHERE material_name = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, material);
+			ResultSet rs = ps.executeQuery();
+			return rs.next();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public void insertDelivery(String date, String material, String amount) {
+		try {
+			String sql = "INSERT INTO RawDeliveries (delivery_date, material_name, delivery_amount) VALUES (?, ?, ?)";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, date);
+			ps.setString(2, material);
+			ps.setString(3, amount);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

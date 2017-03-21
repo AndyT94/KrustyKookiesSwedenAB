@@ -2,9 +2,10 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -17,6 +18,8 @@ import model.RawMaterialDelivery;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class DeliveryPane extends BasicPane {
 	private static final long serialVersionUID = 1L;
@@ -51,14 +54,14 @@ public class DeliveryPane extends BasicPane {
 		date.add(dateLabel, BorderLayout.WEST);
 		date.add(textFields[DATE], BorderLayout.CENTER);
 		panel.add(date);
-		
+
 		JPanel mat = new JPanel(new BorderLayout());
 		JLabel matLabel = new JLabel("Raw material");
 		textFields[MATERIAL] = new JTextField();
 		mat.add(matLabel, BorderLayout.WEST);
 		mat.add(textFields[MATERIAL], BorderLayout.CENTER);
 		panel.add(mat);
-		
+
 		JPanel amount = new JPanel(new BorderLayout());
 		JLabel amountLabel = new JLabel("Delivered amount");
 		textFields[AMOUNT] = new JTextField();
@@ -70,6 +73,12 @@ public class DeliveryPane extends BasicPane {
 		ActionHandler actHand = new ActionHandler();
 		button.addActionListener(actHand);
 		panel.add(button);
+		return panel;
+	}
+
+	public JComponent createBottomPanel() {
+		JPanel panel = new JPanel();
+		panel.add(messageLabel);
 		return panel;
 	}
 
@@ -85,7 +94,58 @@ public class DeliveryPane extends BasicPane {
 
 	class ActionHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			
+			String date = textFields[DATE].getText();
+			String material = textFields[MATERIAL].getText();
+			String amount = textFields[AMOUNT].getText();
+
+			String msg = "";
+
+			if (date.isEmpty() || material.isEmpty() || amount.isEmpty()) {
+				msg += "Please fill in all fields! ";
+			} else {
+				if (!isDate(date)) {
+					msg += "Invalid date (Format: YYYY-MM-DD)! ";
+				}
+
+				if (!db.hasRawMaterial(material)) {
+					msg += "No such raw material! ";
+				}
+
+				try {
+					int delivAmount = Integer.parseInt(amount);
+					if (delivAmount <= 0) {
+						msg += "Amount delivered must be > 0!";
+					}
+				} catch (NumberFormatException ne) {
+					msg += "Amount must be a number!";
+				}
+			}
+
+			if(msg.isEmpty()) {
+				db.insertDelivery(date, material, amount);
+				displayMessage("Raw material inserted into storage!");
+				entryActions();
+			} else {
+				displayMessage(msg);
+			}
+			clearFields();
+		}
+
+		private void clearFields() {
+			for(int i = 0; i < textFields.length; i++) {
+				textFields[i].setText("");
+			}
+		}
+
+		private boolean isDate(String date) {
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			format.setLenient(false);
+			try {
+				Date d = format.parse(date);
+			} catch (ParseException e) {
+				return false;
+			}
+			return true;
 		}
 	}
 }

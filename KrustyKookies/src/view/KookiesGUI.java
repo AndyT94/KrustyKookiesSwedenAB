@@ -38,7 +38,7 @@ public class KookiesGUI {
         tabbedPane.addChangeListener(new ChangeHandler());
         frame.addWindowListener(new WindowHandler());
 
-        frame.setSize(500, 400);
+        frame.setSize(600, 400);
         frame.setVisible(true);
         
 		db.openConnection("krusty.db");
