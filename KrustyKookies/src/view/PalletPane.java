@@ -66,7 +66,7 @@ public class PalletPane extends BasicPane {
 		String[] texts = new String[NBR_FIELDS];
 		texts[LOCATION] = "Location";
 		texts[PRODUCTION_DATE] = "production date";
-		texts[BLOCKED] = "Is blocked";
+		texts[BLOCKED] = "blocked";
 		texts[RECIPE_NAME] = "recipe name";
 
 		fields = new JTextField[NBR_FIELDS];
