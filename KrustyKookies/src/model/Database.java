@@ -3,6 +3,8 @@ package model;
 import java.sql.*;
 import java.util.*;
 
+import view.Pallet;
+
 /**
  * Database is a class that specifies the interface to the movie database. Uses
  * JDBC.
@@ -75,5 +77,18 @@ public class Database {
 			e.printStackTrace();
 		}
 		return materials;
+	}
+
+	public Pallet getPallets(String pallet_id) {
+		try {
+			String sql = "SELECT * FROM pallets WHERE pallet_id = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, pallet_id);
+			ResultSet rs = ps.executeQuery();
+			return new Pallet(rs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

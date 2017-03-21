@@ -19,6 +19,7 @@ import javax.swing.event.ListSelectionListener;
 
 import dbtLab3.CurrentUser;
 import dbtLab3.Movie;
+import dbtLab3.Performance;
 import model.Database;
 
 
@@ -113,6 +114,33 @@ public class PalletPane extends BasicPane {
 	private void clearFields() {
 		for (int i = 0; i < fields.length; i++) {
 			fields[i].setText("");
+		}
+	}
+	
+	/**
+	 * A class that listens for clicks in the date list.
+	 */
+	class PalletSelectionListener implements ListSelectionListener {
+		/**
+		 * Called when the user selects a name in the date list. Fetches
+		 * performance data from the database and displays it in the text
+		 * fields.
+		 * 
+		 * @param e
+		 *            The selected list item.
+		 */
+		public void valueChanged(ListSelectionEvent e) {
+			if (palletList.isSelectionEmpty()) {
+				return;
+			}
+			String pallet_id = palletList.getSelectedValue();
+			/* --- insert own code here --- */
+			clearFields();
+			Pallet p = db.getPallets(pallet_id);
+			fields[LOCATION].setText(p.location);
+			fields[PRODUCTION_DATE].setText(p.production_date.toString());
+			fields[BLOCKED].setText(p.blocked.toString());
+			fields[RECIPE_NAME].setText(p.recipe_name);
 		}
 	}
 
