@@ -21,7 +21,11 @@ public class KookiesGUI {
         JFrame frame = new JFrame("Krusty Kookies Sweden AB");
         tabbedPane = new JTabbedPane();
 		
-        tabbedPane.setSelectedIndex(0);
+        
+        StoragePane storagePane = new StoragePane(db);
+        tabbedPane.addTab("Raw material storage", null, storagePane, "The raw material storage");
+        
+        tabbedPane.setSelectedIndex(-1);
 
         frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 

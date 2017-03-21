@@ -22,7 +22,7 @@ CREATE TABLE Customers (
 
 CREATE TABLE RawMaterials (
   material_name      TEXT,
-  material_amount    INTEGER CHECK (material_amount >= 0),
+  material_amount    REAL CHECK (material_amount >= 0),
   unit               VARCHAR(10) NOT NULL,
   PRIMARY KEY (material_name)
 );

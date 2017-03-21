@@ -61,4 +61,19 @@ public class Database {
 	public boolean isConnected() {
 		return conn != null;
 	}
+	
+	public List<RawMaterial> getRawMaterials() {
+		LinkedList<RawMaterial> materials = new LinkedList<RawMaterial>();
+		try {
+			String sql = "SELECT * FROM RawMaterials";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				materials.add(new RawMaterial(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return materials;
+	}
 }
