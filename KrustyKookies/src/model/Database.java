@@ -117,7 +117,6 @@ public class Database {
 			while (rs.next()) {
 				list.add(new Pallet(rs));
 			}
-			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
