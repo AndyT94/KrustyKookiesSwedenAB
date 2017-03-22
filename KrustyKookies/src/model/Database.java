@@ -288,17 +288,16 @@ public class Database {
 			ps.setString(3, delivery);
 			ps.executeUpdate();
 
-			sql = "UPDATE Pallets SET location = (SELECT customer_name FROM Orders WHERE order_id = ?)";
+			sql = "UPDATE Pallets SET location = (SELECT customer_name FROM Orders WHERE order_id = ?) WHERE pallet_id = ?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, order);
+			ps.setString(2, pallet);
 			ps.executeUpdate();
 
 			conn.setAutoCommit(true);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
 
 	public boolean hasPallet(String pallet_id) {
@@ -339,6 +338,7 @@ public class Database {
 		}
 		return false;
 	}
+	
 	public List<Order> getOrders(String from, String to) {
 		List<Order> orders = new LinkedList<Order>();
 		try {
