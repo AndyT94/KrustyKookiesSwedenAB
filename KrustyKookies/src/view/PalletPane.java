@@ -107,7 +107,7 @@ public class PalletPane extends BasicPane {
 
 		ArrayList<Pallet> pallets = db.getPallets();
 		for (Pallet p : pallets) {
-			palletListModel.addElement(p.pallet_id);
+			palletListModel.addElement(Integer.toString(p.pallet_id));
 		}
 	}
 
