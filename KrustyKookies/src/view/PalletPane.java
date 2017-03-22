@@ -133,7 +133,7 @@ public class PalletPane extends BasicPane {
 				return;
 			}
 			String pallet_id = palletList.getSelectedValue();
-			/* --- insert own code here --- */
+		
 			clearFields();
 			Pallet p = db.getPallet(pallet_id);
 			fields[LOCATION].setText(p.location);

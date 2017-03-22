@@ -178,13 +178,5 @@ public class Database {
 		return list;
 	}
 
-	public List<Order> getOrders() {
-		List<Order> orders = new LinkedList<Order>();
-		try {
-			String sql = "SELECT order_id, recipe_name, amount, customer_name, deliver_by_date FROM Orders o JOIN AmountOrdered a ON "
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return orders;
-	}
+	
 }
