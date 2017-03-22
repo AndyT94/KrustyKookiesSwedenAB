@@ -269,6 +269,7 @@ public class Database {
 
 	}
 
+
 	public void insertShipment(String order, String pallet, String delivery) {
 		try {
 			conn.setAutoCommit(false);
@@ -330,5 +331,22 @@ public class Database {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	public List<Order> getOrders(String from, String to) {
+		List<Order> orders = new LinkedList<Order>();
+		try {
+			String sql = "SELECT o.order_id, recipe_name, amount, customer_name, delivery_by_date FROM Orders o JOIN AmountOrdered a ON o.order_id = a.order_id WHERE delivery_by_date >= ? AND delivery_by_date <= ? ORDER BY o.order_id";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, from);
+			ps.setString(2, to);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				orders.add(new Order(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return orders;
+
 	}
 }
