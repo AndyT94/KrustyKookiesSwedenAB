@@ -1,5 +1,6 @@
-package model;
+package main;
 
+import model.Database;
 import view.KookiesGUI;
 
 public class Krustykookies {
