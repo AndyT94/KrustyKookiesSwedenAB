@@ -15,6 +15,6 @@ public class Order {
 		this.recipe = rs.getString("recipe_name");
 		this.amount = rs.getInt("amount");
 		this.customer = rs.getString("customer_name");
-		this.date = rs.getString("deliver_by_date");
+		this.date = rs.getString("delivery_by_date");
 	}
 }

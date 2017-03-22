@@ -136,14 +136,14 @@ public class Database {
 	public void insertDelivery(String date, String material, String amount) {
 		try {
 			conn.setAutoCommit(false);
-			
+
 			String sql = "INSERT INTO RawDeliveries (delivery_date, material_name, delivery_amount) VALUES (?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, date);
 			ps.setString(2, material);
 			ps.setString(3, amount);
 			ps.executeUpdate();
-			
+
 			sql = "SELECT material_amount FROM RawMaterials WHERE material_name = ?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, material);
@@ -156,7 +156,7 @@ public class Database {
 			ps.setString(1, newAmount.toString());
 			ps.setString(2, material);
 			ps.executeUpdate();
-			
+
 			conn.setAutoCommit(true);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -181,7 +181,12 @@ public class Database {
 	public List<Order> getOrders() {
 		List<Order> orders = new LinkedList<Order>();
 		try {
-			String sql = "SELECT order_id, recipe_name, amount, customer_name, deliver_by_date FROM Orders o JOIN AmountOrdered a ON "
+			String sql = "SELECT o.order_id, recipe_name, amount, customer_name, delivery_by_date FROM Orders o JOIN AmountOrdered a ON o.order_id = a.order_id ORDER BY o.order_id";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				orders.add(new Order(rs));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

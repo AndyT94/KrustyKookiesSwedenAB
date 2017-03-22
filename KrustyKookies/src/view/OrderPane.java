@@ -33,10 +33,10 @@ public class OrderPane extends BasicPane {
 	public void entryActions() {
 		text.setText("");
 		List<Order> orders = db.getOrders();
-		text.append(String.format("%-8s\t %-21s\t %-5s\t %-15s\t %4s\n", "Order ID", "Recipe", "Amount", "Customer", "Deliver By"));
+		text.append(String.format("%-1s\t %-15s\t %-1s\t %-10s\t %4s\n", "Order ID", "Recipe", "Amount", "Customer", "Deliver By"));
 		text.append("\n");
 		for (Order o : orders) {
-			text.append(String.format("%-8s\t %-21s\t %-5s\t %-15s\t %4s\n", o.id, o.recipe, o.amount, o.customer, o.date));
+			text.append(String.format("%-1s\t %-15s\t %-1s\t %-10s\t %4s\n", o.id, o.recipe, o.amount, o.customer, o.date));
 		}
 	}
 }
