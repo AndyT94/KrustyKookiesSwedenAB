@@ -28,7 +28,9 @@ Recipes(<strong>recipe_name</strong>)
 
 Ingredients(<strong><em>material_name</em></strong>, <strong><em>recipe_name</em></strong>, quantity)
 
-Orders(<strong>order_id</strong>, <strong><em>recipe_name</em></strong>, amount, <em>customer_name</em>, deliver_by_date)
+Orders(<strong>order_id</strong>, <em>customer_name</em>, deliver_by_date)
+
+AmountOrdered(<strong><em>order_id</em></strong>, <strong><em>recipe_name</em></strong>, amount)
 
 Pallets(<strong>pallet_id</strong>, location, production_date, blocked, <em>recipe_name</em>)
 
@@ -110,4 +112,4 @@ CREATE TABLE Shipments (
 );
 ```
 
-## Users manual
+## User's manual
