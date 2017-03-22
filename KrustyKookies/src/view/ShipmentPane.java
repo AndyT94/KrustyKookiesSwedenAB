@@ -114,7 +114,7 @@ public class ShipmentPane extends BasicPane{
 				if(!db.hasOrder(order)){
 					msg += "No such order id";
 				}
-				if(db.IsBlocked(pallet)){
+				if(db.isBlocked(pallet)){
 					msg += "The pallet has been blocked!";
 				}
 			}

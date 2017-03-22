@@ -17,7 +17,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import dbtLab3.ButtonAndMessagePanel;
 import model.Database;
 import model.Pallet;
 
@@ -134,16 +133,14 @@ public class PalletPane extends BasicPane {
 	 */
 	class ActionHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			buttons[0].setActionCommand("Show All Blocked Pallets");
-			buttons[1].setActionCommand("Show All Pallets");
-			if (e.getActionCommand().equals("Show All Blocked Pallets")) {
+			if (e.getActionCommand().equals(buttons[0].getText())) {
 				palletListModel.removeAllElements();
 				ArrayList<Pallet> pallets = db.getAllBlockedPallets();
 				for (Pallet p : pallets) {
 					palletListModel.addElement(Integer.toString(p.pallet_id));
 				}
 				displayMessage("This is all the blocked pallets!");
-			} else if (e.getActionCommand().equals("Show All Pallets")) {
+			} else if (e.getActionCommand().equals(buttons[1].getText())) {
 				fillPalletList();
 				displayMessage("");
 			}

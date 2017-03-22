@@ -17,7 +17,7 @@ public class Database {
 	public static final String PALLETS = "Loading on pallets";
 	public static final String DEEP_FREEZE = "Deep-freeze storage";
 	public static final String TRUCK = "Truck";
-	
+
 	/**
 	 * The database connection.
 	 */
@@ -157,14 +157,14 @@ public class Database {
 		} catch (NumberFormatException ne) {
 			throw new DatabaseException("Amount must be a number!");
 		}
-		
+
 		try {
 			conn.setAutoCommit(false);
 
 			if (!hasRawMaterial(material)) {
 				throw new DatabaseException("No such raw material!");
 			}
-			
+
 			String sql = "INSERT INTO RawDeliveries (delivery_date, material_name, delivery_amount) VALUES (?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, date);
@@ -201,7 +201,7 @@ public class Database {
 		}
 		return true;
 	}
-	
+
 	public ArrayList<Pallet> getAllBlockedPallets() {
 		ArrayList<Pallet> list = new ArrayList<Pallet>();
 		try {
@@ -254,14 +254,14 @@ public class Database {
 		if (!isDate(date)) {
 			throw new DatabaseException("Invalid date (Format: YYYY-MM-DD)!");
 		}
-		
+
 		try {
 			conn.setAutoCommit(false);
-			
+
 			if (!hasCustomer(customer)) {
 				throw new DatabaseException("No such customer!");
 			}
-			
+
 			Map<String, String> cookies = null;
 			String[] amount = order.split(",");
 			cookies = new HashMap<String, String>();
@@ -279,21 +279,21 @@ public class Database {
 					throw new DatabaseException("No such recipe!");
 				}
 			}
-			
+
 			String sql = "INSERT INTO Orders (customer_name, delivery_by_date) VALUES (?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, customer);
 			ps.setString(2, date);
 			ps.executeUpdate();
-			
+
 			sql = "SELECT order_id FROM Orders WHERE customer_name = ? AND delivery_by_date = ?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, customer);
 			ps.setString(2, date);
 			ResultSet rs = ps.executeQuery();
 			int id = rs.getInt("order_id");
-			
-			for(String key : cookies.keySet()) {
+
+			for (String key : cookies.keySet()) {
 				sql = "INSERT INTO AmountOrdered (order_id, recipe_name, amount) VALUES (?, ?, ?)";
 				ps = conn.prepareStatement(sql);
 				ps.setString(1, Integer.toString(id));
@@ -301,7 +301,7 @@ public class Database {
 				ps.setString(3, cookies.get(key));
 				ps.executeUpdate();
 			}
-			
+
 			conn.setAutoCommit(true);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -320,7 +320,7 @@ public class Database {
 		}
 		return false;
 	}
-	
+
 	private boolean hasRecipe(String recipe) {
 		try {
 			String sql = "SELECT * FROM Recipes WHERE recipe_name = ?";
@@ -396,15 +396,15 @@ public class Database {
 		}
 		return false;
 	}
-	
+
 	public List<Order> getOrders(String from, String to) throws DatabaseException {
 		if (from.isEmpty() || to.isEmpty()) {
 			throw new DatabaseException("Please fill in all fields!");
-		} 
+		}
 		if (!isDate(from) || !isDate(to)) {
 			throw new DatabaseException("Invalid date (Format: YYYY-MM-DD)!");
 		}
-		
+
 		List<Order> orders = new LinkedList<Order>();
 		try {
 			String sql = "SELECT o.order_id, recipe_name, amount, customer_name, delivery_by_date FROM Orders o JOIN AmountOrdered a ON o.order_id = a.order_id WHERE delivery_by_date >= ? AND delivery_by_date <= ? ORDER BY o.order_id";
