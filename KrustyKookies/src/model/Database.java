@@ -335,7 +335,6 @@ public class Database {
 
 	}
 
-
 	public void insertShipment(String order, String pallet, String delivery) {
 		try {
 			conn.setAutoCommit(false);
@@ -398,7 +397,14 @@ public class Database {
 		return false;
 	}
 	
-	public List<Order> getOrders(String from, String to) {
+	public List<Order> getOrders(String from, String to) throws DatabaseException {
+		if (from.isEmpty() || to.isEmpty()) {
+			throw new DatabaseException("Please fill in all fields!");
+		} 
+		if (!isDate(from) || !isDate(to)) {
+			throw new DatabaseException("Invalid date (Format: YYYY-MM-DD)!");
+		}
+		
 		List<Order> orders = new LinkedList<Order>();
 		try {
 			String sql = "SELECT o.order_id, recipe_name, amount, customer_name, delivery_by_date FROM Orders o JOIN AmountOrdered a ON o.order_id = a.order_id WHERE delivery_by_date >= ? AND delivery_by_date <= ? ORDER BY o.order_id";
@@ -413,6 +419,5 @@ public class Database {
 			e.printStackTrace();
 		}
 		return orders;
-
 	}
 }

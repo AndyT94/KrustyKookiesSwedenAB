@@ -4,11 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -151,28 +147,12 @@ public class OrderPane extends BasicPane {
 		}
 	}
 
-	private boolean isDate(String date) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		format.setLenient(false);
-		try {
-			format.parse(date);
-		} catch (ParseException e) {
-			return false;
-		}
-		return true;
-	}
-
 	class SearchHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			String from = bottomTextFields[FROM].getText();
 			String to = bottomTextFields[TO].getText();
-			String msg = "";
 
-			if (from.isEmpty() || to.isEmpty()) {
-				msg = "Please fill in all fields! ";
-			} else if (!isDate(from) || !isDate(to)) {
-				msg = "Invalid date (Format: YYYY-MM-DD)! ";
-			} else {
+			try {
 				List<Order> orders = db.getOrders(from, to);
 				text.setText("");
 				text.append(String.format("%-1s\t %-15s\t %-1s\t %-10s\t %4s\n", "Order ID", "Recipe", "Amount",
@@ -182,11 +162,11 @@ public class OrderPane extends BasicPane {
 					text.append(String.format("%-1s\t %-15s\t %-1s\t %-10s\t %4s\n", o.id, o.recipe, o.amount,
 							o.customer, o.date));
 				}
-				msg = "Search yielded " + orders.size() + " orders!";
+				displayMessage("Search yielded " + orders.size() +" orders!");
+				clearFields();
+			} catch (DatabaseException e1) {
+				displayMessage(e1.getMessage());
 			}
-
-			displayMessage(msg);
-			clearFields();
 		}
 
 		private void clearFields() {
