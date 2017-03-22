@@ -48,7 +48,7 @@ CREATE TABLE Customers (
 
 CREATE TABLE RawMaterials (
   material_name      TEXT,
-  material_amount    INTEGER CHECK (material_amount >= 0),
+  material_amount    REAL CHECK (material_amount >= 0),
   unit               VARCHAR(10) NOT NULL,
   PRIMARY KEY (material_name)
 );
@@ -69,7 +69,7 @@ CREATE TABLE Recipes (
 CREATE TABLE Ingredients (
   material_name    TEXT,
   recipe_name      TEXT,
-  quantity         INTEGER CHECK (quantity > 0),
+  quantity         REAL CHECK (quantity > 0),
   PRIMARY KEY (material_name, recipe_name),
   FOREIGN KEY (material_name) REFERENCES RawMaterials(material_name),
   FOREIGN KEY (recipe_name) REFERENCES Recipes(recipe_name)
@@ -77,13 +77,18 @@ CREATE TABLE Ingredients (
 
 CREATE TABLE Orders (
   order_id          INTEGER AUTO_INCREMENT,
-  recipe_name       TEXT,
-  amount            INTEGER CHECK (amount > 0),
   customer_name     TEXT,
   delivery_by_date  DATE NOT NULL,
-  PRIMARY KEY (order_id, recipe_name),
-  FOREIGN KEY (recipe_name) REFERENCES Recipes(recipe_name),
+  PRIMARY KEY (order_id),
   FOREIGN KEY (customer_name) REFERENCES Customers(customer_name)
+);
+
+CREATE TABLE AmountOrdered (
+  order_id          INTEGER,
+  recipe_name       TEXT,
+  amount            INTEGER CHECK (amount > 0),
+  PRIMARY KEY (order_id, recipe_name),
+  FOREIGN KEY (recipe_name) REFERENCES Recipes(recipe_name)
 );
 
 CREATE TABLE Pallets (

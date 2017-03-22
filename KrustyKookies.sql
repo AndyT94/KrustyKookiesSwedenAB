@@ -51,13 +51,18 @@ CREATE TABLE Ingredients (
 
 CREATE TABLE Orders (
   order_id          INTEGER AUTO_INCREMENT,
-  recipe_name       TEXT,
-  amount            INTEGER CHECK (amount > 0),
   customer_name     TEXT,
   delivery_by_date  DATE NOT NULL,
-  PRIMARY KEY (order_id, recipe_name),
-  FOREIGN KEY (recipe_name) REFERENCES Recipes(recipe_name),
+  PRIMARY KEY (order_id),
   FOREIGN KEY (customer_name) REFERENCES Customers(customer_name)
+);
+
+CREATE TABLE AmountOrdered (
+  order_id          INTEGER,
+  recipe_name       TEXT,
+  amount            INTEGER CHECK (amount > 0),
+  PRIMARY KEY (order_id, recipe_name),
+  FOREIGN KEY (recipe_name) REFERENCES Recipes(recipe_name)
 );
 
 CREATE TABLE Pallets (
@@ -151,6 +156,21 @@ INSERT INTO Ingredients (recipe_name, material_name, quantity) VALUES
 ('Berliner', 'Eggs', 50),
 ('Berliner', 'Vanilla sugar', 5),
 ('Berliner', 'Chocolate', 50);
+
+INSERT INTO RawDeliveries (delivery_date, material_name, delivery_amount) VALUES
+('2017-03-20', 'Flour', 4500),
+('2017-03-20', 'Butter', 4500),
+('2017-03-20', 'Icing sugar', 1900),
+('2017-03-21', 'Roasted, chopped nuts', 5000);
+
+INSERT INTO Pallets (location, production_date, blocked, recipe_name) VALUES
+('Deep-freeze storage', '2017-03-20', FALSE, 'Nut ring'),
+('Deep-freeze storage', '2017-03-20', FALSE, 'Nut ring'),
+('Deep-freeze storage', '2017-03-21', FALSE, 'Tango'),
+('Deep-freeze storage', '2017-03-19', TRUE, 'Tango'),
+('Deep-freeze storage', '2017-03-19', TRUE, 'Tango');
+
+INSERT INTO Orders (recipe_name, amount, )
 -- And re-enable foreign key checks.
 
 PRAGMA foreign_key = on;
