@@ -46,26 +46,26 @@ public class OrderPane extends BasicPane {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(NBR_FIELDS + 1, 1));
 
-		JPanel customer = new JPanel(new BorderLayout());
+		JPanel customer = new JPanel(new GridLayout(1, 2));
 		JLabel customerLabel = new JLabel("Customer ");
 		textFields[CUSTOMER] = new JTextField();
-		customer.add(customerLabel, BorderLayout.WEST);
-		customer.add(textFields[CUSTOMER], BorderLayout.CENTER);
+		customer.add(customerLabel);
+		customer.add(textFields[CUSTOMER]);
 		panel.add(customer);
 
-		JPanel order = new JPanel(new BorderLayout());
+		JPanel order = new JPanel(new GridLayout(1, 2));
 		JLabel orderLabel = new JLabel("Order ");
 		textFields[ORDER] = new JTextField();
-		order.add(orderLabel, BorderLayout.WEST);
-		order.add(textFields[ORDER], BorderLayout.CENTER);
+		order.add(orderLabel);
+		order.add(textFields[ORDER]);
 		panel.add(order);
 
-		JPanel amount = new JPanel(new BorderLayout());
-		JLabel amountLabel = new JLabel("Deliver By Date ");
+		JPanel date = new JPanel(new GridLayout(1, 2));
+		JLabel dateLabel = new JLabel("Deliver By Date ");
 		textFields[DATE] = new JTextField();
-		amount.add(amountLabel, BorderLayout.WEST);
-		amount.add(textFields[DATE], BorderLayout.CENTER);
-		panel.add(amount);
+		date.add(dateLabel);
+		date.add(textFields[DATE]);
+		panel.add(date);
 
 		JButton button = new JButton("Add Order");
 		ActionHandler actHand = new ActionHandler();

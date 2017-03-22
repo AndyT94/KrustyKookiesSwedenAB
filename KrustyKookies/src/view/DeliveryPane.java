@@ -48,25 +48,25 @@ public class DeliveryPane extends BasicPane {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(NBR_FIELDS + 1, 1));
 
-		JPanel date = new JPanel(new BorderLayout());
+		JPanel date = new JPanel(new GridLayout(1, 2));
 		JLabel dateLabel = new JLabel("Delivery date");
 		textFields[DATE] = new JTextField();
-		date.add(dateLabel, BorderLayout.WEST);
-		date.add(textFields[DATE], BorderLayout.CENTER);
+		date.add(dateLabel);
+		date.add(textFields[DATE]);
 		panel.add(date);
 
-		JPanel mat = new JPanel(new BorderLayout());
+		JPanel mat = new JPanel(new GridLayout(1, 2));
 		JLabel matLabel = new JLabel("Raw material");
 		textFields[MATERIAL] = new JTextField();
-		mat.add(matLabel, BorderLayout.WEST);
-		mat.add(textFields[MATERIAL], BorderLayout.CENTER);
+		mat.add(matLabel);
+		mat.add(textFields[MATERIAL]);
 		panel.add(mat);
 
-		JPanel amount = new JPanel(new BorderLayout());
+		JPanel amount = new JPanel(new GridLayout(1, 2));
 		JLabel amountLabel = new JLabel("Delivered amount");
 		textFields[AMOUNT] = new JTextField();
-		amount.add(amountLabel, BorderLayout.WEST);
-		amount.add(textFields[AMOUNT], BorderLayout.CENTER);
+		amount.add(amountLabel);
+		amount.add(textFields[AMOUNT]);
 		panel.add(amount);
 
 		JButton button = new JButton("Add Delivery");
