@@ -166,7 +166,7 @@ public class Database {
 	public ArrayList<Pallet> getAllBlockedPallets() {
 		ArrayList<Pallet> list = new ArrayList<Pallet>();
 		try {
-			String sql = "SELECT * FROM pallets WHERE blocked = 'true'";
+			String sql = "SELECT * FROM pallets WHERE blocked = 1";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -176,5 +176,15 @@ public class Database {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	public List<Order> getOrders() {
+		List<Order> orders = new LinkedList<Order>();
+		try {
+			String sql = "SELECT order_id, recipe_name, amount, customer_name, deliver_by_date FROM Orders o JOIN AmountOrdered a ON "
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return orders;
 	}
 }

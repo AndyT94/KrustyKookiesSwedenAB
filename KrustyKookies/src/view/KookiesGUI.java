@@ -21,6 +21,8 @@ public class KookiesGUI {
         JFrame frame = new JFrame("Krusty Kookies Sweden AB");
         tabbedPane = new JTabbedPane();
 		
+        OrderPane orderPane = new OrderPane(db);
+        tabbedPane.addTab("Orders", null, orderPane, "The orders");
         
         PalletPane palletPane = new PalletPane(db);
         tabbedPane.addTab("Pallets", null, palletPane, "The pallets");

@@ -92,8 +92,7 @@ public class PalletPane extends BasicPane {
 		buttons[0] = new JButton("Show All Blocked Pallets");
 		buttons[1] = new JButton("Show All Pallets");
 
-		return new ButtonAndMessagePanel(buttons, messageLabel,
-				new ActionHandler());
+		return new ButtonAndMessagePanel(buttons, messageLabel, new ActionHandler());
 	}
 
 	public void entryActions() {
@@ -157,30 +156,21 @@ public class PalletPane extends BasicPane {
 		 *            The event object (not used).
 		 */
 		public void actionPerformed(ActionEvent e) {
-			buttons[0].setActionCommand("First");
-			buttons[1].setActionCommand("Second");
-			if (palletList.isSelectionEmpty()) {
-				displayMessage("");
-				return;
-			}
-			if (e.getActionCommand().equals("First")) {
+			buttons[0].setActionCommand("Show All Blocked Pallets");
+			buttons[1].setActionCommand("Show All Pallets");
+			if (e.getActionCommand().equals("Show All Blocked Pallets")) {
 				palletListModel.removeAllElements();
 				ArrayList<Pallet> pallets = db.getAllBlockedPallets();
 				for (Pallet p : pallets) {
-					palletListModel.addElement(p.recipe_name);
+					palletListModel.addElement(Integer.toString(p.pallet_id));
 
 				}
 				displayMessage("This is all the blocked pallets!!!");
-				
+
+			} else if (e.getActionCommand().equals("Show All Pallets")) {
+				fillPalletList();
+				displayMessage("");
 			}
-				if (e.getActionCommand().equals("Second")) {
-					fillPalletList();
-
-				}
-
-			}
-
 		}
 	}
-
-
+}

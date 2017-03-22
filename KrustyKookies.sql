@@ -164,11 +164,11 @@ INSERT INTO RawDeliveries (delivery_date, material_name, delivery_amount) VALUES
 ('2017-03-21', 'Roasted, chopped nuts', 5000);
 
 INSERT INTO Pallets (location, production_date, blocked, recipe_name) VALUES
-('Deep-freeze storage', '2017-03-20', 'FALSE', 'Nut ring'),
-('Deep-freeze storage', '2017-03-20', 'FALSE', 'Nut ring'),
-('Deep-freeze storage', '2017-03-21', 'FALSE', 'Tango'),
-('Deep-freeze storage', '2017-03-19', 'TRUE', 'Tango'),
-('Deep-freeze storage', '2017-03-19', 'TRUE', 'Tango');
+('Deep-freeze storage', '2017-03-20', 0, 'Nut ring'),
+('Deep-freeze storage', '2017-03-20', 0, 'Nut ring'),
+('Deep-freeze storage', '2017-03-21', 0, 'Tango'),
+('Deep-freeze storage', '2017-03-19', 1, 'Tango'),
+('Deep-freeze storage', '2017-03-19', 1, 'Tango');
 
 INSERT INTO Orders (customer_name, delivery_by_date) VALUES
 ('Finkakor AB', '2017-04-23'),
