@@ -16,7 +16,7 @@ public class Database {
 	public static final String CARTONS = "Packaging in cartons";
 	public static final String PALLETS = "Loading on pallets";
 	public static final String DEEP_FREEZE = "Deep-freeze storage";
-	public static final String TRUCK = "Truck";
+	public static final String RAMP = "Ramp";
 
 	/**
 	 * The database connection.
