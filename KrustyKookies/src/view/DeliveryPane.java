@@ -98,12 +98,12 @@ public class DeliveryPane extends BasicPane {
 			String amount = textFields[AMOUNT].getText();
 
 			try {
-				db.insertDelivery(date, material, amount);
+				db.addDelivery(date, material, amount);
 				displayMessage("Raw material inserted into storage!");
+				clearFields();
 			} catch (DatabaseException exception) {
 				displayMessage(exception.getMessage());
 			}
-			clearFields();
 		}
 
 		private void clearFields() {

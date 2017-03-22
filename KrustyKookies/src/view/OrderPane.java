@@ -19,6 +19,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import model.Database;
+import model.DatabaseException;
 import model.Order;
 
 public class OrderPane extends BasicPane {
@@ -134,46 +135,13 @@ public class OrderPane extends BasicPane {
 			String order = topTextFields[ORDER].getText();
 			String date = topTextFields[DATE].getText();
 
-			String msg = "";
-			Map<String, String> cookies = null;
-			if (date.isEmpty() || customer.isEmpty() || order.isEmpty()) {
-				msg += "Please fill in all fields! ";
-			} else {
-				if (!isDate(date)) {
-					msg += "Invalid date (Format: YYYY-MM-DD)! ";
-				}
-
-				if (!db.hasCustomer(customer)) {
-					msg += "No such customer! ";
-				}
-
-				String[] amount = order.split(",");
-				cookies = new HashMap<String, String>();
-				for (int i = 0; i < amount.length; i++) {
-					String[] data = amount[i].trim().split("\\s");
-					String nbr = data[0];
-					String recipe = "";
-					for (int j = 1; j < data.length; j++) {
-						recipe += data[j] + " ";
-					}
-					cookies.put(recipe.trim(), nbr);
-				}
-				for (String key : cookies.keySet()) {
-					if (!db.hasRecipe(key)) {
-						msg += "No such recipe! ";
-						break;
-					}
-				}
+			try {
+				db.addOrder(customer, order, date);
+				displayMessage("Successfully added new order!");
+				clearFields();
+			} catch (DatabaseException e1) {
+				displayMessage(e1.getMessage());
 			}
-
-			if (msg.isEmpty()) {
-				db.addOrder(customer, cookies, date);
-				displayMessage("Added new order!");
-				entryActions();
-			} else {
-				displayMessage(msg);
-			}
-			clearFields();
 		}
 
 		private void clearFields() {
@@ -216,7 +184,7 @@ public class OrderPane extends BasicPane {
 				}
 				msg = "Search yielded " + orders.size() + " orders!";
 			}
-			
+
 			displayMessage(msg);
 			clearFields();
 		}
@@ -227,7 +195,7 @@ public class OrderPane extends BasicPane {
 			}
 		}
 	}
-	
+
 	class ShowHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			entryActions();

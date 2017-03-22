@@ -142,15 +142,12 @@ public class Database {
 		return false;
 	}
 
-	public void insertDelivery(String date, String material, String amount) throws DatabaseException {
+	public void addDelivery(String date, String material, String amount) throws DatabaseException {
 		if (date.isEmpty() || material.isEmpty() || amount.isEmpty()) {
 			throw new DatabaseException("Please fill in all fields!");
 		}
 		if (!isDate(date)) {
 			throw new DatabaseException("Invalid date (Format: YYYY-MM-DD)!");
-		}
-		if (!hasRawMaterial(material)) {
-			throw new DatabaseException("No such raw material!");
 		}
 		try {
 			double delivAmount = Double.parseDouble(amount);
@@ -164,6 +161,10 @@ public class Database {
 		try {
 			conn.setAutoCommit(false);
 
+			if (!hasRawMaterial(material)) {
+				throw new DatabaseException("No such raw material!");
+			}
+			
 			String sql = "INSERT INTO RawDeliveries (delivery_date, material_name, delivery_amount) VALUES (?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, date);
@@ -245,11 +246,39 @@ public class Database {
 		}
 		return shipments;
 	}
-		
 
-	public void addOrder(String customer, Map<String, String> cookies, String date) {
+	public void addOrder(String customer, String order, String date) throws DatabaseException {
+		if (date.isEmpty() || customer.isEmpty() || order.isEmpty()) {
+			throw new DatabaseException("Please fill in all fields!");
+		}
+		if (!isDate(date)) {
+			throw new DatabaseException("Invalid date (Format: YYYY-MM-DD)!");
+		}
+		
 		try {
 			conn.setAutoCommit(false);
+			
+			if (!hasCustomer(customer)) {
+				throw new DatabaseException("No such customer!");
+			}
+			
+			Map<String, String> cookies = null;
+			String[] amount = order.split(",");
+			cookies = new HashMap<String, String>();
+			for (int i = 0; i < amount.length; i++) {
+				String[] data = amount[i].trim().split("\\s");
+				String nbr = data[0];
+				String recipe = "";
+				for (int j = 1; j < data.length; j++) {
+					recipe += data[j] + " ";
+				}
+				cookies.put(recipe.trim(), nbr);
+			}
+			for (String key : cookies.keySet()) {
+				if (!hasRecipe(key)) {
+					throw new DatabaseException("No such recipe!");
+				}
+			}
 			
 			String sql = "INSERT INTO Orders (customer_name, delivery_by_date) VALUES (?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -279,7 +308,7 @@ public class Database {
 		}
 	}
 
-	public boolean hasCustomer(String customer) {
+	private boolean hasCustomer(String customer) {
 		try {
 			String sql = "SELECT * FROM Customers WHERE customer_name = ?";
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -292,7 +321,7 @@ public class Database {
 		return false;
 	}
 	
-	public boolean hasRecipe(String recipe) {
+	private boolean hasRecipe(String recipe) {
 		try {
 			String sql = "SELECT * FROM Recipes WHERE recipe_name = ?";
 			PreparedStatement ps = conn.prepareStatement(sql);
