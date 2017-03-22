@@ -22,19 +22,19 @@ public class KookiesGUI {
         tabbedPane = new JTabbedPane();
 		
         OrderPane orderPane = new OrderPane(db);
-        tabbedPane.addTab("Orders", null, orderPane, "The orders");
+        tabbedPane.addTab("Order", null, orderPane, "The orders");
         
         PalletPane palletPane = new PalletPane(db);
-        tabbedPane.addTab("Pallets", null, palletPane, "The pallets");
+        tabbedPane.addTab("Pallet", null, palletPane, "The pallets");
         
         StoragePane storagePane = new StoragePane(db);
-        tabbedPane.addTab("Raw material storage", null, storagePane, "The raw material storage");
+        tabbedPane.addTab("Storage", null, storagePane, "The raw material storage");
         
         DeliveryPane deliveryPane = new DeliveryPane(db);
-        tabbedPane.addTab("Raw deliveries", null, deliveryPane, "Raw material deliveries");
+        tabbedPane.addTab("Delivery", null, deliveryPane, "Raw material deliveries");
         
         ShipmentPane shipmentPane = new ShipmentPane(db);
-        tabbedPane.addTab("Shipments", null, shipmentPane, "Shipments");
+        tabbedPane.addTab("Shipment", null, shipmentPane, "Shipments");
         
         tabbedPane.setSelectedIndex(-1);
 
