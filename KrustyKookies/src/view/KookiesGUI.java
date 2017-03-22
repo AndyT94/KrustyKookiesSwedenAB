@@ -21,20 +21,20 @@ public class KookiesGUI {
         JFrame frame = new JFrame("Krusty Kookies Sweden AB");
         tabbedPane = new JTabbedPane();
 		
+        PalletPane palletPane = new PalletPane(db);
+        tabbedPane.addTab("Pallet", null, palletPane, "The pallets");
+        
         OrderPane orderPane = new OrderPane(db);
         tabbedPane.addTab("Order", null, orderPane, "The orders");
         
-        PalletPane palletPane = new PalletPane(db);
-        tabbedPane.addTab("Pallet", null, palletPane, "The pallets");
+        ShipmentPane shipmentPane = new ShipmentPane(db);
+        tabbedPane.addTab("Shipment", null, shipmentPane, "Shipments");
         
         StoragePane storagePane = new StoragePane(db);
         tabbedPane.addTab("Storage", null, storagePane, "The raw material storage");
         
         DeliveryPane deliveryPane = new DeliveryPane(db);
         tabbedPane.addTab("Delivery", null, deliveryPane, "Raw material deliveries");
-        
-        ShipmentPane shipmentPane = new ShipmentPane(db);
-        tabbedPane.addTab("Shipment", null, shipmentPane, "Shipments");
         
         tabbedPane.setSelectedIndex(-1);
 
