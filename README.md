@@ -76,10 +76,9 @@ CREATE TABLE Ingredients (
 );
 
 CREATE TABLE Orders (
-  order_id          INTEGER AUTO_INCREMENT,
+  order_id          INTEGER PRIMARY KEY,
   customer_name     TEXT,
   delivery_by_date  DATE NOT NULL,
-  PRIMARY KEY (order_id),
   FOREIGN KEY (customer_name) REFERENCES Customers(customer_name)
 );
 
@@ -88,16 +87,16 @@ CREATE TABLE AmountOrdered (
   recipe_name       TEXT,
   amount            INTEGER CHECK (amount > 0),
   PRIMARY KEY (order_id, recipe_name),
+  FOREIGN KEY (order_id) REFERENCES Orders(order_id),
   FOREIGN KEY (recipe_name) REFERENCES Recipes(recipe_name)
 );
 
 CREATE TABLE Pallets (
-  pallet_id       INTEGER AUTO_INCREMENT,
+  pallet_id       INTEGER PRIMARY KEY,
   location        TEXT NOT NULL,
   production_date DATE NOT NULL,
   blocked         BOOLEAN,
   recipe_name     TEXT,
-  PRIMARY KEY (pallet_id),
   FOREIGN KEY (recipe_name) REFERENCES Recipes(recipe_name)
 );
 

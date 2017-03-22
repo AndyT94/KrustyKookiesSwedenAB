@@ -79,7 +79,7 @@ public class Database {
 
 	public Pallet getPallet(String pallet_id) {
 		try {
-			String sql = "SELECT pallet_id FROM pallets WHERE pallet_id = ?";
+			String sql = "SELECT * FROM pallets WHERE pallet_id = ?";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, pallet_id);
 			ResultSet rs = ps.executeQuery();
