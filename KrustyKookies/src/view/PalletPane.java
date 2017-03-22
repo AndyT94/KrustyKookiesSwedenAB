@@ -22,28 +22,15 @@ import model.Database;
 import model.Pallet;
 
 public class PalletPane extends BasicPane {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1;
-
 	private JTextField[] fields;
-
 	private DefaultListModel<String> palletListModel;
-
 	private JList<String> palletList;
-
 	private static final int LOCATION = 0;
-
 	private static final int PRODUCTION_DATE = 1;
-
 	private static final int BLOCKED = 2;
-
 	private static final int RECIPE_NAME = 3;
-
 	private static final int NBR_FIELDS = 4;
-
 	private JButton[] buttons;
 
 	PalletPane(Database db) {
@@ -84,7 +71,6 @@ public class PalletPane extends BasicPane {
 		p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
 		p.add(input);
 		return p;
-
 	}
 
 	public JComponent createBottomPanel() {
