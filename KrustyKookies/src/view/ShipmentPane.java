@@ -20,7 +20,6 @@ import model.Database;
 import model.Shipment;
 
 public class ShipmentPane extends BasicPane{
-	
 	private static final long serialVersionUID = 1L;
 	private JTextArea text;
 	private JTextField[] textFields;
@@ -48,25 +47,25 @@ public class ShipmentPane extends BasicPane{
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(NBR_FIELDS + 1, 1));
 
-		JPanel order_id = new JPanel(new BorderLayout());
+		JPanel order_id = new JPanel(new GridLayout(1, 2));
 		JLabel orderLabel = new JLabel("Order id");
 		textFields[ORDER_ID] = new JTextField();
-		order_id.add(orderLabel, BorderLayout.WEST);
-		order_id.add(textFields[ORDER_ID], BorderLayout.CENTER);
+		order_id.add(orderLabel);
+		order_id.add(textFields[ORDER_ID]);
 		panel.add(order_id);
 
-		JPanel pallet_id = new JPanel(new BorderLayout());
+		JPanel pallet_id = new JPanel(new GridLayout(1, 2));
 		JLabel palletLabel = new JLabel("Pallet id");
 		textFields[PALLET_ID] = new JTextField();
-		pallet_id.add(palletLabel, BorderLayout.WEST);
-		pallet_id.add(textFields[PALLET_ID], BorderLayout.CENTER);
+		pallet_id.add(palletLabel);
+		pallet_id.add(textFields[PALLET_ID]);
 		panel.add(pallet_id);
 
-		JPanel delivery = new JPanel(new BorderLayout());
+		JPanel delivery = new JPanel(new GridLayout(1, 2));
 		JLabel deliveryLabel = new JLabel("Delivery date");
 		textFields[DELIVERY_DATE] = new JTextField();
-		delivery.add(deliveryLabel, BorderLayout.WEST);
-		delivery.add(textFields[DELIVERY_DATE], BorderLayout.CENTER);
+		delivery.add(deliveryLabel);
+		delivery.add(textFields[DELIVERY_DATE]);
 		panel.add(delivery);
 
 		JButton button = new JButton("Add Shipment");
