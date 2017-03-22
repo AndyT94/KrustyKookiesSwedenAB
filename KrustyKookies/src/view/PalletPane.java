@@ -133,7 +133,6 @@ public class PalletPane extends BasicPane {
 	 * A class that listens for button clicks.
 	 */
 	class ActionHandler implements ActionListener {
-		
 		public void actionPerformed(ActionEvent e) {
 			buttons[0].setActionCommand("Show All Blocked Pallets");
 			buttons[1].setActionCommand("Show All Pallets");
@@ -142,10 +141,8 @@ public class PalletPane extends BasicPane {
 				ArrayList<Pallet> pallets = db.getAllBlockedPallets();
 				for (Pallet p : pallets) {
 					palletListModel.addElement(Integer.toString(p.pallet_id));
-
 				}
-				displayMessage("This is all the blocked pallets!!!");
-
+				displayMessage("This is all the blocked pallets!");
 			} else if (e.getActionCommand().equals("Show All Pallets")) {
 				fillPalletList();
 				displayMessage("");
