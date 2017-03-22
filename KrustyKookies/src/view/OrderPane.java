@@ -21,11 +21,16 @@ import view.DeliveryPane.ActionHandler;
 public class OrderPane extends BasicPane {
 	private static final long serialVersionUID = 1L;
 	private JTextArea text;
-	private JTextField[] textFields;
-	private static final int NBR_FIELDS = 3;
+	private JTextField[] topTextFields;
+	private static final int TOP_NBR_FIELDS = 3;
 	private static final int CUSTOMER = 0;
 	private static final int ORDER = 1;
 	private static final int DATE = 2;
+	
+	private JTextField[] bottomTextFields;
+	private static final int BOTTOM_NBR_FIELDS = 2;
+	private static final int FROM = 0;
+	private static final int TO = 1;
 	
 	public OrderPane(Database db) {
 		super(db);
@@ -42,33 +47,59 @@ public class OrderPane extends BasicPane {
 	}
 	
 	public JComponent createTopPanel() {
-		textFields = new JTextField[NBR_FIELDS];
+		topTextFields = new JTextField[TOP_NBR_FIELDS];
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(NBR_FIELDS + 1, 1));
+		panel.setLayout(new GridLayout(TOP_NBR_FIELDS + 1, 1));
 
 		JPanel customer = new JPanel(new GridLayout(1, 2));
 		JLabel customerLabel = new JLabel("Customer ");
-		textFields[CUSTOMER] = new JTextField();
+		topTextFields[CUSTOMER] = new JTextField();
 		customer.add(customerLabel);
-		customer.add(textFields[CUSTOMER]);
+		customer.add(topTextFields[CUSTOMER]);
 		panel.add(customer);
 
 		JPanel order = new JPanel(new GridLayout(1, 2));
 		JLabel orderLabel = new JLabel("Order ");
-		textFields[ORDER] = new JTextField();
+		topTextFields[ORDER] = new JTextField();
 		order.add(orderLabel);
-		order.add(textFields[ORDER]);
+		order.add(topTextFields[ORDER]);
 		panel.add(order);
 
 		JPanel date = new JPanel(new GridLayout(1, 2));
 		JLabel dateLabel = new JLabel("Deliver By Date ");
-		textFields[DATE] = new JTextField();
+		topTextFields[DATE] = new JTextField();
 		date.add(dateLabel);
-		date.add(textFields[DATE]);
+		date.add(topTextFields[DATE]);
 		panel.add(date);
 
 		JButton button = new JButton("Add Order");
-		ActionHandler actHand = new ActionHandler();
+		OrderHandler actHand = new OrderHandler();
+		button.addActionListener(actHand);
+		panel.add(button);
+		return panel;
+	}
+	
+	public JComponent createBottomPanel() {
+		bottomTextFields = new JTextField[BOTTOM_NBR_FIELDS];
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(BOTTOM_NBR_FIELDS + 1, 1));
+
+		JPanel from = new JPanel(new GridLayout(1, 2));
+		JLabel fromLabel = new JLabel("Date from ");
+		bottomTextFields[FROM] = new JTextField();
+		from.add(fromLabel);
+		from.add(bottomTextFields[FROM]);
+		panel.add(from);
+
+		JPanel to = new JPanel(new GridLayout(1, 2));
+		JLabel toLabel = new JLabel("Date to ");
+		bottomTextFields[TO] = new JTextField();
+		to.add(toLabel);
+		to.add(bottomTextFields[TO]);
+		panel.add(to);
+
+		JButton button = new JButton("Search");
+		SearchHandler actHand = new SearchHandler();
 		button.addActionListener(actHand);
 		panel.add(button);
 		return panel;
@@ -84,7 +115,13 @@ public class OrderPane extends BasicPane {
 		}
 	}
 	
-	class ActionHandler implements ActionListener {
+	class OrderHandler implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			
+		}
+	}
+	
+	class SearchHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
 		}
