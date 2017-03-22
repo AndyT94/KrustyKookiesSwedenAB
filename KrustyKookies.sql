@@ -10,6 +10,7 @@ DROP TABLE IF EXISTS Ingredients;
 DROP TABLE IF EXISTS Orders;
 DROP TABLE IF EXISTS Pallets;
 DROP TABLE IF EXISTS Shipments;
+DROP TABLE IF EXISTS AmountOrdered;
 
 PRAGMA foreign_keys=ON;
 
@@ -50,10 +51,9 @@ CREATE TABLE Ingredients (
 );
 
 CREATE TABLE Orders (
-  order_id          INTEGER AUTO_INCREMENT,
+  order_id          INTEGER PRIMARY KEY,
   customer_name     TEXT,
   delivery_by_date  DATE NOT NULL,
-  PRIMARY KEY (order_id),
   FOREIGN KEY (customer_name) REFERENCES Customers(customer_name)
 );
 
@@ -62,16 +62,16 @@ CREATE TABLE AmountOrdered (
   recipe_name       TEXT,
   amount            INTEGER CHECK (amount > 0),
   PRIMARY KEY (order_id, recipe_name),
+  FOREIGN KEY (order_id) REFERENCES Orders(order_id),
   FOREIGN KEY (recipe_name) REFERENCES Recipes(recipe_name)
 );
 
 CREATE TABLE Pallets (
-  pallet_id       INTEGER AUTO_INCREMENT,
+  pallet_id       INTEGER PRIMARY KEY,
   location        TEXT NOT NULL,
   production_date DATE NOT NULL,
   blocked         BOOLEAN,
   recipe_name     TEXT,
-  PRIMARY KEY (pallet_id),
   FOREIGN KEY (recipe_name) REFERENCES Recipes(recipe_name)
 );
 
@@ -164,13 +164,20 @@ INSERT INTO RawDeliveries (delivery_date, material_name, delivery_amount) VALUES
 ('2017-03-21', 'Roasted, chopped nuts', 5000);
 
 INSERT INTO Pallets (location, production_date, blocked, recipe_name) VALUES
-('Deep-freeze storage', '2017-03-20', FALSE, 'Nut ring'),
-('Deep-freeze storage', '2017-03-20', FALSE, 'Nut ring'),
-('Deep-freeze storage', '2017-03-21', FALSE, 'Tango'),
-('Deep-freeze storage', '2017-03-19', TRUE, 'Tango'),
-('Deep-freeze storage', '2017-03-19', TRUE, 'Tango');
+('Deep-freeze storage', '2017-03-20', 'FALSE', 'Nut ring'),
+('Deep-freeze storage', '2017-03-20', 'FALSE', 'Nut ring'),
+('Deep-freeze storage', '2017-03-21', 'FALSE', 'Tango'),
+('Deep-freeze storage', '2017-03-19', 'TRUE', 'Tango'),
+('Deep-freeze storage', '2017-03-19', 'TRUE', 'Tango');
 
-INSERT INTO Orders (recipe_name, amount, )
+INSERT INTO Orders (customer_name, delivery_by_date) VALUES
+('Finkakor AB', '2017-04-23'),
+('Småbröd AB', '2017-04-24');
+
+INSERT INTO AmountOrdered (order_id, recipe_name, amount) VALUES
+(1, 'Tango', 10),
+(1, 'Berliner', 6),
+(2, 'Nut ring', 2);
 -- And re-enable foreign key checks.
 
 PRAGMA foreign_key = on;
