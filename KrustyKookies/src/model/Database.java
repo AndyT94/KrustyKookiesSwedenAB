@@ -1,6 +1,8 @@
 package model;
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -127,7 +129,7 @@ public class Database {
 		return list;
 	}
 
-	public boolean hasRawMaterial(String material) {
+	private boolean hasRawMaterial(String material) {
 		try {
 			String sql = "SELECT * FROM RawMaterials WHERE material_name = ?";
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -140,7 +142,25 @@ public class Database {
 		return false;
 	}
 
-	public void insertDelivery(String date, String material, String amount) {
+	public void insertDelivery(String date, String material, String amount) throws DatabaseException {
+		if (date.isEmpty() || material.isEmpty() || amount.isEmpty()) {
+			throw new DatabaseException("Please fill in all fields!");
+		}
+		if (!isDate(date)) {
+			throw new DatabaseException("Invalid date (Format: YYYY-MM-DD)!");
+		}
+		if (!hasRawMaterial(material)) {
+			throw new DatabaseException("No such raw material!");
+		}
+		try {
+			double delivAmount = Double.parseDouble(amount);
+			if (delivAmount <= 0) {
+				throw new DatabaseException("Amount delivered must be > 0!");
+			}
+		} catch (NumberFormatException ne) {
+			throw new DatabaseException("Amount must be a number!");
+		}
+		
 		try {
 			conn.setAutoCommit(false);
 
@@ -170,6 +190,17 @@ public class Database {
 		}
 	}
 
+	private boolean isDate(String date) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		format.setLenient(false);
+		try {
+			format.parse(date);
+		} catch (ParseException e) {
+			return false;
+		}
+		return true;
+	}
+	
 	public ArrayList<Pallet> getAllBlockedPallets() {
 		ArrayList<Pallet> list = new ArrayList<Pallet>();
 		try {
@@ -199,7 +230,6 @@ public class Database {
 		}
 		return orders;
 	}
-
 
 	public List<Shipment> getShipments() {
 		List<Shipment> shipments = new LinkedList<Shipment>();

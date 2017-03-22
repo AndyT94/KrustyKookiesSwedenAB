@@ -13,12 +13,11 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import model.Database;
+import model.DatabaseException;
 import model.RawMaterialDelivery;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 public class DeliveryPane extends BasicPane {
 	private static final long serialVersionUID = 1L;
@@ -98,54 +97,19 @@ public class DeliveryPane extends BasicPane {
 			String material = textFields[MATERIAL].getText();
 			String amount = textFields[AMOUNT].getText();
 
-			String msg = "";
-
-			if (date.isEmpty() || material.isEmpty() || amount.isEmpty()) {
-				msg += "Please fill in all fields! ";
-			} else {
-				if (!isDate(date)) {
-					msg += "Invalid date (Format: YYYY-MM-DD)! ";
-				}
-
-				if (!db.hasRawMaterial(material)) {
-					msg += "No such raw material! ";
-				}
-
-				try {
-					int delivAmount = Integer.parseInt(amount);
-					if (delivAmount <= 0) {
-						msg += "Amount delivered must be > 0!";
-					}
-				} catch (NumberFormatException ne) {
-					msg += "Amount must be a number!";
-				}
-			}
-
-			if(msg.isEmpty()) {
+			try {
 				db.insertDelivery(date, material, amount);
 				displayMessage("Raw material inserted into storage!");
-				entryActions();
-			} else {
-				displayMessage(msg);
+			} catch (DatabaseException exception) {
+				displayMessage(exception.getMessage());
 			}
 			clearFields();
 		}
 
 		private void clearFields() {
-			for(int i = 0; i < textFields.length; i++) {
+			for (int i = 0; i < textFields.length; i++) {
 				textFields[i].setText("");
 			}
-		}
-
-		private boolean isDate(String date) {
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			format.setLenient(false);
-			try {
-				format.parse(date);
-			} catch (ParseException e) {
-				return false;
-			}
-			return true;
 		}
 	}
 }

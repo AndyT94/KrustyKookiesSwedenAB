@@ -48,10 +48,10 @@ public class ProductionPane extends BasicPane {
 	private void fillProductionList() {
 		productionListModel.removeAllElements();
 
-		List<Pallet> pallets = db.getPalletsInProduction();
-		for (Pallet p : pallets) {
-			productionListModel.addElement(Integer.toString(p.pallet_id));
-		}
+		//List<Pallet> pallets = db.getPalletsInProduction();
+//		for (Pallet p : pallets) {
+//			productionListModel.addElement(Integer.toString(p.pallet_id));
+//		}
 	}
 	
 	class ProductionSelectionListener implements ListSelectionListener {
