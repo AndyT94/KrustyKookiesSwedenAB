@@ -147,14 +147,7 @@ public class PalletPane extends BasicPane {
 	 * A class that listens for button clicks.
 	 */
 	class ActionHandler implements ActionListener {
-		/**
-		 * Called when the user clicks the Book ticket button. Books a ticket
-		 * for the current user to the selected performance (adds a booking to
-		 * the database).
-		 * 
-		 * @param e
-		 *            The event object (not used).
-		 */
+		
 		public void actionPerformed(ActionEvent e) {
 			buttons[0].setActionCommand("Show All Blocked Pallets");
 			buttons[1].setActionCommand("Show All Pallets");
