@@ -148,14 +148,7 @@ public class PalletPane extends BasicPane {
 	 * A class that listens for button clicks.
 	 */
 	class ActionHandler implements ActionListener {
-		/**
-		 * Called when the user clicks the Book ticket button. Books a ticket
-		 * for the current user to the selected performance (adds a booking to
-		 * the database).
-		 * 
-		 * @param e
-		 *            The event object (not used).
-		 */
+		
 		public void actionPerformed(ActionEvent e) {
 			buttons[0].setActionCommand("First");
 			buttons[1].setActionCommand("Second");
@@ -167,7 +160,7 @@ public class PalletPane extends BasicPane {
 				palletListModel.removeAllElements();
 				ArrayList<Pallet> pallets = db.getAllBlockedPallets();
 				for (Pallet p : pallets) {
-					palletListModel.addElement(p.recipe_name);
+					palletListModel.addElement(Integer.toString(p.pallet_id));
 
 				}
 				displayMessage("This is all the blocked pallets!!!");
