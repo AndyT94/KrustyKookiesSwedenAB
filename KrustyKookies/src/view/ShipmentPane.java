@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 
 import model.Database;
 import model.RawMaterialDelivery;
+import model.Shipment;
 import view.DeliveryPane.ActionHandler;
 
 public class ShipmentPane extends BasicPane{
@@ -54,28 +55,28 @@ public class ShipmentPane extends BasicPane{
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(NBR_FIELDS + 1, 1));
 
-		JPanel date = new JPanel(new BorderLayout());
+		JPanel order_id = new JPanel(new BorderLayout());
 		JLabel dateLabel = new JLabel("Order id");
 		textFields[ORDER_ID] = new JTextField();
-		date.add(dateLabel, BorderLayout.WEST);
-		date.add(textFields[ORDER_ID], BorderLayout.CENTER);
-		panel.add(date);
+		order_id.add(dateLabel, BorderLayout.WEST);
+		order_id.add(textFields[ORDER_ID], BorderLayout.CENTER);
+		panel.add(order_id);
 
-		JPanel mat = new JPanel(new BorderLayout());
+		JPanel pallet_id = new JPanel(new BorderLayout());
 		JLabel matLabel = new JLabel("Pallet id");
 		textFields[PALLET_ID] = new JTextField();
-		mat.add(matLabel, BorderLayout.WEST);
-		mat.add(textFields[PALLET_ID], BorderLayout.CENTER);
-		panel.add(mat);
+		pallet_id.add(matLabel, BorderLayout.WEST);
+		pallet_id.add(textFields[PALLET_ID], BorderLayout.CENTER);
+		panel.add(pallet_id);
 
-		JPanel amount = new JPanel(new BorderLayout());
+		JPanel delivery = new JPanel(new BorderLayout());
 		JLabel amountLabel = new JLabel("Delivery date");
 		textFields[DELIVERY_DATE] = new JTextField();
-		amount.add(amountLabel, BorderLayout.WEST);
-		amount.add(textFields[DELIVERY_DATE], BorderLayout.CENTER);
-		panel.add(amount);
+		delivery.add(amountLabel, BorderLayout.WEST);
+		delivery.add(textFields[DELIVERY_DATE], BorderLayout.CENTER);
+		panel.add(delivery);
 
-		JButton button = new JButton("Add Delivery");
+		JButton button = new JButton("Add Shipment");
 		ActionHandler actHand = new ActionHandler();
 		button.addActionListener(actHand);
 		panel.add(button);
@@ -90,11 +91,11 @@ public class ShipmentPane extends BasicPane{
 
 	public void entryActions() {
 		text.setText("");
-		List<RawMaterialDelivery> deliveries = db.getRawMaterialsDeliveries();
+		List<Shipment> shipments = db.getShipments();
 		text.append(String.format("%-8s\t %-21s\t %4s\n", "Date", "Raw material", "Amount"));
 		text.append("\n");
-		for (RawMaterialDelivery r : deliveries) {
-			text.append(String.format("%-8s\t %-21s\t %4s\n", r.date, r.material, r.amount));
+		for (Shipment s : shipments) {
+			text.append(String.format("%-8s\t %-21s\t %4s\n", s.order_id, s.pallet_id, s.date_of_delivery));
 		}
 	}
 

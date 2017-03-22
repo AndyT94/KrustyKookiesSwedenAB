@@ -193,6 +193,23 @@ public class Database {
 		return orders;
 	}
 
+
+	public List<Shipment> getShipments() {
+		List<Shipment> shipments = new LinkedList<Shipment>();
+		try {
+			String sql = "SELECT * FROM Shipments";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				shipments.add(new Shipment(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return shipments;
+	}
+		
+
 	public void addOrder(String customer, Map<String, String> cookies, String date) {
 		try {
 			conn.setAutoCommit(false);
@@ -249,6 +266,7 @@ public class Database {
 			e.printStackTrace();
 		}
 		return false;
+
 	}
 
 	public List<Order> getOrders(String from, String to) {
