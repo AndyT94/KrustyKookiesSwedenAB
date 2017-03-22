@@ -11,7 +11,7 @@ public class Shipment {
 	public Shipment(ResultSet rs)throws SQLException {
 		this.order_id = rs.getInt("order_id");
 		this.pallet_id = rs.getInt("pallet_id");
-		this.date_of_delivery = rs.getString("delivery_by_date");
+		this.date_of_delivery = rs.getString("date_of_delivery");
 		
 	}
 

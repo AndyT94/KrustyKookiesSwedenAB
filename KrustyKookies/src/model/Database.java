@@ -268,4 +268,67 @@ public class Database {
 		return false;
 
 	}
+
+	public void insertShipment(String order, String pallet, String delivery) {
+		try {
+			conn.setAutoCommit(false);
+
+			String sql = "INSERT INTO Shipments (order_id, pallet_id, date_of_delivery) VALUES (?, ?, ?)";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, order);
+			ps.setString(2, pallet);
+			ps.setString(3, delivery);
+			ps.executeUpdate();
+
+			sql = "UPDATE Pallets SET location = (SELECT customer_name FROM Orders WHERE order_id = ?)";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, order);
+			ps.executeUpdate();
+
+			conn.setAutoCommit(true);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+	public boolean hasPallet(String pallet_id) {
+		try {
+			String sql = "SELECT * FROM Pallets WHERE pallet_id = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, pallet_id);
+			ResultSet rs = ps.executeQuery();
+			return rs.next();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean hasOrder(String order_id) {
+		try {
+			String sql = "SELECT * FROM Orders WHERE order_id = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, order_id);
+			ResultSet rs = ps.executeQuery();
+			return rs.next();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean IsBlocked(String pallet) {
+		try {
+			String sql = "SELECT pallet_id FROM Pallets WHERE pallet_id = ? AND blocked = 1";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, pallet);
+			ResultSet rs = ps.executeQuery();
+			return rs.next();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

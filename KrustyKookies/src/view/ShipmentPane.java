@@ -56,23 +56,23 @@ public class ShipmentPane extends BasicPane{
 		panel.setLayout(new GridLayout(NBR_FIELDS + 1, 1));
 
 		JPanel order_id = new JPanel(new BorderLayout());
-		JLabel dateLabel = new JLabel("Order id");
+		JLabel orderLabel = new JLabel("Order id");
 		textFields[ORDER_ID] = new JTextField();
-		order_id.add(dateLabel, BorderLayout.WEST);
+		order_id.add(orderLabel, BorderLayout.WEST);
 		order_id.add(textFields[ORDER_ID], BorderLayout.CENTER);
 		panel.add(order_id);
 
 		JPanel pallet_id = new JPanel(new BorderLayout());
-		JLabel matLabel = new JLabel("Pallet id");
+		JLabel palletLabel = new JLabel("Pallet id");
 		textFields[PALLET_ID] = new JTextField();
-		pallet_id.add(matLabel, BorderLayout.WEST);
+		pallet_id.add(palletLabel, BorderLayout.WEST);
 		pallet_id.add(textFields[PALLET_ID], BorderLayout.CENTER);
 		panel.add(pallet_id);
 
 		JPanel delivery = new JPanel(new BorderLayout());
-		JLabel amountLabel = new JLabel("Delivery date");
+		JLabel deliveryLabel = new JLabel("Delivery date");
 		textFields[DELIVERY_DATE] = new JTextField();
-		delivery.add(amountLabel, BorderLayout.WEST);
+		delivery.add(deliveryLabel, BorderLayout.WEST);
 		delivery.add(textFields[DELIVERY_DATE], BorderLayout.CENTER);
 		panel.add(delivery);
 
@@ -92,7 +92,7 @@ public class ShipmentPane extends BasicPane{
 	public void entryActions() {
 		text.setText("");
 		List<Shipment> shipments = db.getShipments();
-		text.append(String.format("%-8s\t %-21s\t %4s\n", "Date", "Raw material", "Amount"));
+		text.append(String.format("%-8s\t %-21s\t %4s\n", "Order Id", "Pallet Id", "Delivery Date"));
 		text.append("\n");
 		for (Shipment s : shipments) {
 			text.append(String.format("%-8s\t %-21s\t %4s\n", s.order_id, s.pallet_id, s.date_of_delivery));
@@ -101,36 +101,34 @@ public class ShipmentPane extends BasicPane{
 
 	class ActionHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			String date = textFields[ORDER_ID].getText();
-			String material = textFields[PALLET_ID].getText();
-			String amount = textFields[DELIVERY_DATE].getText();
+			String order = textFields[ORDER_ID].getText();
+			String pallet = textFields[PALLET_ID].getText();
+			String delivery = textFields[DELIVERY_DATE].getText();
 
 			String msg = "";
 
-			if (date.isEmpty() || material.isEmpty() || amount.isEmpty()) {
+			if (order.isEmpty() || pallet.isEmpty() || delivery.isEmpty()) {
 				msg += "Please fill in all fields! ";
 			} else {
-				if (!isDate(date)) {
+				if (!isDate(delivery)) {
 					msg += "Invalid date (Format: YYYY-MM-DD)! ";
 				}
 
-				if (!db.hasRawMaterial(material)) {
-					msg += "No such raw material! ";
+				if (!db.hasPallet(pallet)) {
+					msg += "No such pallet id! ";
 				}
 
-				try {
-					int delivAmount = Integer.parseInt(amount);
-					if (delivAmount <= 0) {
-						msg += "Amount delivered must be > 0!";
-					}
-				} catch (NumberFormatException ne) {
-					msg += "Amount must be a number!";
+				if(!db.hasOrder(order)){
+					msg += "No such order id";
+				}
+				if(db.IsBlocked(pallet)){
+					msg += "The pallet has been blocked!";
 				}
 			}
 
 			if(msg.isEmpty()) {
-				db.insertDelivery(date, material, amount);
-				displayMessage("Raw material inserted into storage!");
+				db.insertShipment(order, pallet, delivery);
+				displayMessage("Shipment Added!");
 				entryActions();
 			} else {
 				displayMessage(msg);
