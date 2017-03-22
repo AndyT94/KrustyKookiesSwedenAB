@@ -68,9 +68,9 @@ public class PalletPane extends BasicPane {
 	public JComponent createTopPanel() {
 		String[] texts = new String[NBR_FIELDS];
 		texts[LOCATION] = "Location";
-		texts[PRODUCTION_DATE] = "production date";
-		texts[BLOCKED] = "blocked";
-		texts[RECIPE_NAME] = "recipe name";
+		texts[PRODUCTION_DATE] = "Production date";
+		texts[BLOCKED] = "Blocked";
+		texts[RECIPE_NAME] = "Recipe name";
 
 		fields = new JTextField[NBR_FIELDS];
 		for (int i = 0; i < fields.length; i++) {
