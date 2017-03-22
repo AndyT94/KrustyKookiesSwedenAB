@@ -384,11 +384,11 @@ public class Database {
 		return false;
 	}
 
-	public boolean IsBlocked(String pallet) {
+	public boolean isBlocked(String pallet_id) {
 		try {
 			String sql = "SELECT pallet_id FROM Pallets WHERE pallet_id = ? AND blocked = 1";
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, pallet);
+			ps.setString(1, pallet_id);
 			ResultSet rs = ps.executeQuery();
 			return rs.next();
 		} catch (SQLException e) {
