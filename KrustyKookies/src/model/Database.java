@@ -193,6 +193,7 @@ public class Database {
 		return orders;
 	}
 
+
 	public List<Shipment> getShipments() {
 		List<Shipment> shipments = new LinkedList<Shipment>();
 		try {
@@ -206,6 +207,65 @@ public class Database {
 			e.printStackTrace();
 		}
 		return shipments;
+	}
 		
+
+	public void addOrder(String customer, Map<String, String> cookies, String date) {
+		try {
+			conn.setAutoCommit(false);
+			
+			String sql = "INSERT INTO Orders (customer_name, delivery_by_date) VALUES (?, ?)";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, customer);
+			ps.setString(2, date);
+			ps.executeUpdate();
+			
+			sql = "SELECT order_id FROM Orders WHERE customer_name = ? AND delivery_by_date = ?";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, customer);
+			ps.setString(2, date);
+			ResultSet rs = ps.executeQuery();
+			int id = rs.getInt("order_id");
+			
+			for(String key : cookies.keySet()) {
+				sql = "INSERT INTO AmountOrdered (order_id, recipe_name, amount) VALUES (?, ?, ?)";
+				ps = conn.prepareStatement(sql);
+				ps.setString(1, Integer.toString(id));
+				ps.setString(2, key);
+				ps.setString(3, cookies.get(key));
+				ps.executeUpdate();
+			}
+			
+			conn.setAutoCommit(true);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public boolean hasCustomer(String customer) {
+		try {
+			String sql = "SELECT * FROM Customers WHERE customer_name = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, customer);
+			ResultSet rs = ps.executeQuery();
+			return rs.next();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public boolean hasRecipe(String recipe) {
+		try {
+			String sql = "SELECT * FROM Recipes WHERE recipe_name = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, recipe);
+			ResultSet rs = ps.executeQuery();
+			return rs.next();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+
 	}
 }
