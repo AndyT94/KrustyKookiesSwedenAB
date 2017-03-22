@@ -235,7 +235,7 @@ public class Database {
 	public List<Shipment> getShipments() {
 		List<Shipment> shipments = new LinkedList<Shipment>();
 		try {
-			String sql = "SELECT * FROM Shipments";
+			String sql = "SELECT * FROM Shipments ORDER BY date_of_delivery DESC";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
