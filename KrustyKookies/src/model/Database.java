@@ -335,9 +335,26 @@ public class Database {
 
 	}
 
-	public void insertShipment(String order, String pallet, String delivery) {
+	public void insertShipment(String order, String pallet, String delivery) throws DatabaseException {
+		if (order.isEmpty() || pallet.isEmpty() || delivery.isEmpty()) {
+			throw new DatabaseException("Please fill in all fields!");
+		}
+		if (!isDate(delivery)) {
+			throw new DatabaseException("Invalid date (Format: YYYY-MM-DD)!");
+		}
+
 		try {
 			conn.setAutoCommit(false);
+
+			if (!hasPallet(pallet)) {
+				throw new DatabaseException("No such pallet id!");
+			}
+			if (!hasOrder(order)) {
+				throw new DatabaseException("No such order id");
+			}
+			if (isBlocked(pallet)) {
+				throw new DatabaseException("The pallet has been blocked!");
+			}
 
 			String sql = "INSERT INTO Shipments (order_id, pallet_id, date_of_delivery) VALUES (?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -358,7 +375,7 @@ public class Database {
 		}
 	}
 
-	public boolean hasPallet(String pallet_id) {
+	private boolean hasPallet(String pallet_id) {
 		try {
 			String sql = "SELECT * FROM Pallets WHERE pallet_id = ?";
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -371,7 +388,7 @@ public class Database {
 		return false;
 	}
 
-	public boolean hasOrder(String order_id) {
+	private boolean hasOrder(String order_id) {
 		try {
 			String sql = "SELECT * FROM Orders WHERE order_id = ?";
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -384,7 +401,7 @@ public class Database {
 		return false;
 	}
 
-	public boolean isBlocked(String pallet_id) {
+	private boolean isBlocked(String pallet_id) {
 		try {
 			String sql = "SELECT pallet_id FROM Pallets WHERE pallet_id = ? AND blocked = 1";
 			PreparedStatement ps = conn.prepareStatement(sql);

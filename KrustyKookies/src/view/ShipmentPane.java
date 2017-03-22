@@ -17,9 +17,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import model.Database;
+import model.DatabaseException;
 import model.Shipment;
 
-public class ShipmentPane extends BasicPane{
+public class ShipmentPane extends BasicPane {
 	private static final long serialVersionUID = 1L;
 	private JTextArea text;
 	private JTextField[] textFields;
@@ -97,52 +98,20 @@ public class ShipmentPane extends BasicPane{
 			String pallet = textFields[PALLET_ID].getText();
 			String delivery = textFields[DELIVERY_DATE].getText();
 
-			String msg = "";
-
-			if (order.isEmpty() || pallet.isEmpty() || delivery.isEmpty()) {
-				msg += "Please fill in all fields! ";
-			} else {
-				if (!isDate(delivery)) {
-					msg += "Invalid date (Format: YYYY-MM-DD)! ";
-				}
-
-				if (!db.hasPallet(pallet)) {
-					msg += "No such pallet id! ";
-				}
-
-				if(!db.hasOrder(order)){
-					msg += "No such order id";
-				}
-				if(db.isBlocked(pallet)){
-					msg += "The pallet has been blocked!";
-				}
-			}
-
-			if(msg.isEmpty()) {
+			try {
 				db.insertShipment(order, pallet, delivery);
-				displayMessage("Shipment Added!");
+				displayMessage("Shipment successfully added!");
 				entryActions();
-			} else {
-				displayMessage(msg);
+				clearFields();
+			} catch (DatabaseException e1) {
+				displayMessage(e1.getMessage());
 			}
-			clearFields();
 		}
 
 		private void clearFields() {
-			for(int i = 0; i < textFields.length; i++) {
+			for (int i = 0; i < textFields.length; i++) {
 				textFields[i].setText("");
 			}
-		}
-
-		private boolean isDate(String date) {
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			format.setLenient(false);
-			try {
-				format.parse(date);
-			} catch (ParseException e) {
-				return false;
-			}
-			return true;
 		}
 	}
 }
