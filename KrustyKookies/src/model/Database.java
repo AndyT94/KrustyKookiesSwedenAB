@@ -10,13 +10,14 @@ import java.util.*;
  * JDBC.
  */
 public class Database {
-	public static final String PRODUCTION = "Production";
-	public static final String FREEZING = "Freezing";
-	public static final String BAGS = "Packaging in bags";
-	public static final String CARTONS = "Packaging in cartons";
-	public static final String PALLETS = "Loading on pallets";
-	public static final String DEEP_FREEZE = "Deep-freeze storage";
-	public static final String RAMP = "Ramp";
+	public static final String[] FACTORY = {"Production", "Freezing", "Packaging in bags", "Packaging in cartons", "Loading on pallets", "Deep-freeze storage", "Ramp"};
+	public static final int PRODUCTION = 0;
+	public static final int FREEZING = 1;
+	public static final int BAGS = 2;
+	public static final int CARTONS = 3;
+	public static final int PALLETS = 4;
+	public static final int DEEP_FREEZE = 5;
+	public static final int RAMP = 6;
 
 	/**
 	 * The database connection.
@@ -452,5 +453,21 @@ public class Database {
 			e.printStackTrace();
 		}
 		return orders;
+	}
+
+	public List<Pallet> getPalletsInProduction() {
+		List<Pallet> list = new LinkedList<Pallet>();
+		try {
+			String sql = "SELECT * FROM pallets WHERE location <> ? AND location NOT IN (SELECT customer_name FROM Customers)";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, FACTORY[RAMP]);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				list.add(new Pallet(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 }
