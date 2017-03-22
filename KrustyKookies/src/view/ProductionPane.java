@@ -1,11 +1,15 @@
 package view;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,6 +30,7 @@ public class ProductionPane extends BasicPane {
 	private static final int NBR_FIELDS = 2;
 	
 	private JTextField[] fields;
+	private JTextField recipe;
 	
 	public ProductionPane(Database db) {
 		super(db);
@@ -65,6 +70,20 @@ public class ProductionPane extends BasicPane {
 		return p;
 	}
 	
+	public JComponent createBottomPanel() {
+		JPanel p = new JPanel(new GridLayout(2,1));
+		JPanel panel = new JPanel(new GridLayout(1, 3));
+		panel.add(new JLabel("Recipe"));
+		recipe = new JTextField();
+		panel.add(recipe);
+		JButton button = new JButton("Create pallet");
+		button.addActionListener(new ActionHandler());
+		panel.add(button);
+		p.add(panel);
+		p.add(messageLabel);
+		return p;
+	}
+	
 	public void entryActions() {
 		clearMessage();
 		fillProductionList();
@@ -96,6 +115,12 @@ public class ProductionPane extends BasicPane {
 			Pallet p = db.getPallet(pallet_id);
 			fields[LOCATION].setText(p.location);
 			fields[RECIPE_NAME].setText(p.recipe_name);
+		}
+	}
+	
+	class ActionHandler implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+
 		}
 	}
 }
