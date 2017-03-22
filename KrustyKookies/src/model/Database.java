@@ -192,4 +192,20 @@ public class Database {
 		}
 		return orders;
 	}
+
+	public List<Shipment> getShipments() {
+		List<Shipment> shipments = new LinkedList<Shipment>();
+		try {
+			String sql = "SELECT * FROM Shipments";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				shipments.add(new Shipment(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return shipments;
+		
+	}
 }
