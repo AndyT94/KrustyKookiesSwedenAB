@@ -350,12 +350,15 @@ public class Database {
 				throw new DatabaseException("No such pallet id!");
 			}
 			if (!hasOrder(order)) {
-				throw new DatabaseException("No such order id");
+				throw new DatabaseException("No such order id!");
 			}
 			if (isBlocked(pallet)) {
 				throw new DatabaseException("The pallet has been blocked!");
 			}
-
+			if(isShippedPallet(pallet)) {
+				throw new DatabaseException("Pallet already shipped!");
+			}
+			
 			String sql = "INSERT INTO Shipments (order_id, pallet_id, date_of_delivery) VALUES (?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, order);
@@ -373,6 +376,19 @@ public class Database {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private boolean isShippedPallet(String pallet_id) {
+		try {
+			String sql = "SELECT * FROM Shipments WHERE pallet_id = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, pallet_id);
+			ResultSet rs = ps.executeQuery();
+			return rs.next();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	private boolean hasPallet(String pallet_id) {

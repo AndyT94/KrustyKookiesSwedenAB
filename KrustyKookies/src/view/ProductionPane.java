@@ -8,6 +8,7 @@ import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -20,6 +21,11 @@ public class ProductionPane extends BasicPane {
 	private static final long serialVersionUID = 1L;
 	private DefaultListModel<String> productionListModel;
 	private JList<String> productionList;
+	private static final int LOCATION = 0;
+	private static final int RECIPE_NAME = 3;
+	private static final int NBR_FIELDS = 4;
+	
+	private JTextField[] fields;
 	
 	public ProductionPane(Database db) {
 		super(db);
