@@ -104,7 +104,13 @@ public class OrderPane extends BasicPane {
 		JButton button = new JButton("Search");
 		SearchHandler actHand = new SearchHandler();
 		button.addActionListener(actHand);
-		panel.add(button);
+		JButton showButton = new JButton("Show all");
+		ShowHandler showHand = new ShowHandler();
+		showButton.addActionListener(showHand);
+		JPanel p1 = new JPanel(new GridLayout(1, 2));
+		p1.add(showButton);
+		p1.add(button);
+		panel.add(p1);
 
 		panel.add(messageLabel);
 		return panel;
@@ -152,8 +158,8 @@ public class OrderPane extends BasicPane {
 					}
 					cookies.put(recipe.trim(), nbr);
 				}
-				for(String key : cookies.keySet()) {
-					if(!db.hasRecipe(key)) {
+				for (String key : cookies.keySet()) {
+					if (!db.hasRecipe(key)) {
 						msg += "No such recipe! ";
 						break;
 					}
@@ -162,8 +168,8 @@ public class OrderPane extends BasicPane {
 
 			if (msg.isEmpty()) {
 				db.addOrder(customer, cookies, date);
+				displayMessage("Added new order!");
 				entryActions();
-				displayMessage("");
 			} else {
 				displayMessage(msg);
 			}
@@ -190,7 +196,42 @@ public class OrderPane extends BasicPane {
 
 	class SearchHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			String from = bottomTextFields[FROM].getText();
+			String to = bottomTextFields[TO].getText();
+			String msg = "";
 
+			if (from.isEmpty() || to.isEmpty()) {
+				msg = "Please fill in all fields! ";
+			} else if (!isDate(from) || !isDate(to)) {
+				msg = "Invalid date (Format: YYYY-MM-DD)! ";
+			} else {
+				List<Order> orders = db.getOrders(from, to);
+				text.setText("");
+				text.append(String.format("%-1s\t %-15s\t %-1s\t %-10s\t %4s\n", "Order ID", "Recipe", "Amount",
+						"Customer", "Deliver By"));
+				text.append("\n");
+				for (Order o : orders) {
+					text.append(String.format("%-1s\t %-15s\t %-1s\t %-10s\t %4s\n", o.id, o.recipe, o.amount,
+							o.customer, o.date));
+				}
+				msg = "Search yielded " + orders.size() + " orders!";
+			}
+			
+			displayMessage(msg);
+			clearFields();
+		}
+
+		private void clearFields() {
+			for (int i = 0; i < bottomTextFields.length; i++) {
+				bottomTextFields[i].setText("");
+			}
+		}
+	}
+	
+	class ShowHandler implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			entryActions();
+			displayMessage("");
 		}
 	}
 }
