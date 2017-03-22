@@ -25,9 +25,9 @@ public class ShipmentPane extends BasicPane{
 	private JTextArea text;
 	private JTextField[] textFields;
 	private static final int NBR_FIELDS = 3;
-	private static final int ORDER_ID = 0; //DATE
-	private static final int PALLET_ID = 1; //MATERIAL
-	private static final int DELIVERY_DATE = 2;   //AMOUNT
+	private static final int ORDER_ID = 0;
+	private static final int PALLET_ID = 1;
+	private static final int DELIVERY_DATE = 2;
 
 	public ShipmentPane(Database db) {
 		super(db);
