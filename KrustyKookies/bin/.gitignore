@@ -1,6 +1,17 @@
+<<<<<<< HEAD
 /.DS_Store
 /dbtLab3/
 /main/
 /model/
 /sqlite-jdbc.jar
 /view/
+=======
+<<<<<<< HEAD
+/dbtLab3/
+/model/
+/view/
+=======
+/main/
+/model/
+>>>>>>> 8eb88f1f64f5a91f2389385a96b964a4289388d5
+>>>>>>> 094cd55f6c8447a62c24ff0d5e3f2b86e5eb3ded

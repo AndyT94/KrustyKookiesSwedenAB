@@ -9,6 +9,7 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -19,6 +20,7 @@ import javax.swing.event.ListSelectionListener;
 
 import model.Database;
 import model.Pallet;
+import view.ProductionPane.ActionHandler;
 
 public class PalletPane extends BasicPane {
 	private static final long serialVersionUID = 1;
@@ -31,6 +33,11 @@ public class PalletPane extends BasicPane {
 	private static final int RECIPE_NAME = 3;
 	private static final int NBR_FIELDS = 4;
 	private JButton[] buttons;
+	
+	
+	private JTextField recipe;
+	private JTextField pallet_id;
+	private JTextField date;
 
 	PalletPane(Database db) {
 		super(db);
@@ -78,6 +85,21 @@ public class PalletPane extends BasicPane {
 		buttons[1] = new JButton("Show All Pallets");
 
 		return new ButtonAndMessagePanel(buttons, messageLabel, new ActionHandler());
+	}
+	
+	public JComponent createMiddlePanel(){
+		JPanel p = new JPanel(new GridLayout(2,1));
+		JPanel panel = new JPanel(new GridLayout(1, 3));
+		panel.add(new JLabel("Recipe"));
+		recipe = new JTextField();
+		panel.add(recipe);
+		JButton button = new JButton("Search");
+		button.addActionListener(new ActionHandler());
+		panel.add(button);
+		p.add(panel);
+		p.add(messageLabel);
+		return p;
+		
 	}
 
 	public void entryActions() {
