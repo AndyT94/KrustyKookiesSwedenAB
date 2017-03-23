@@ -158,21 +158,21 @@ INSERT INTO Ingredients (recipe_name, material_name, quantity) VALUES
 ('Berliner', 'Chocolate', 50);
 
 INSERT INTO RawDeliveries (delivery_date, material_name, delivery_amount) VALUES
-('2017-03-20', 'Flour', 4500),
-('2017-03-20', 'Butter', 4500),
-('2017-03-20', 'Icing sugar', 1900),
-('2017-03-21', 'Roasted, chopped nuts', 5000);
+('2017-03-20 07:00:00', 'Flour', 4500),
+('2017-03-20 07:00:00', 'Butter', 4500),
+('2017-03-20 07:00:00', 'Icing sugar', 1900),
+('2017-03-21 07:00:00', 'Roasted, chopped nuts', 5000);
 
 INSERT INTO Pallets (location, production_date, blocked, recipe_name) VALUES
-('Deep-freeze storage', '2017-03-20', 0, 'Nut ring'),
-('Deep-freeze storage', '2017-03-20', 0, 'Nut ring'),
-('Deep-freeze storage', '2017-03-21', 0, 'Tango'),
-('Deep-freeze storage', '2017-03-19', 1, 'Tango'),
-('Deep-freeze storage', '2017-03-19', 1, 'Tango');
+('Deep-freeze storage', '2017-03-20 08:25:30', 0, 'Nut ring'),
+('Deep-freeze storage', '2017-03-20 08:25:30', 0, 'Nut ring'),
+('Deep-freeze storage', '2017-03-21 13:55:04', 0, 'Tango'),
+('Deep-freeze storage', '2017-03-19 15:50:50', 1, 'Tango'),
+('Deep-freeze storage', '2017-03-19 01:01:01', 1, 'Tango');
 
 INSERT INTO Orders (customer_name, delivery_by_date) VALUES
-('Finkakor AB', '2017-04-23'),
-('Småbröd AB', '2017-04-24');
+('Finkakor AB', '2017-04-23 15:00:00'),
+('Småbröd AB', '2017-04-24 15:00:00');
 
 INSERT INTO AmountOrdered (order_id, recipe_name, amount) VALUES
 (1, 'Tango', 10),

@@ -143,7 +143,7 @@ public class Database {
 			throw new DatabaseException("Please fill in all fields!");
 		}
 		if (!isDate(date)) {
-			throw new DatabaseException("Invalid date (Format: YYYY-MM-DD)!");
+			throw new DatabaseException("Invalid date (Format: yyyy-MM-dd HH:mm:ss)!");
 		}
 		try {
 			double delivAmount = Double.parseDouble(amount);
@@ -188,7 +188,7 @@ public class Database {
 	}
 
 	private boolean isDate(String date) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		format.setLenient(false);
 		try {
 			format.parse(date);
@@ -248,7 +248,7 @@ public class Database {
 			throw new DatabaseException("Please fill in all fields!");
 		}
 		if (!isDate(date)) {
-			throw new DatabaseException("Invalid date (Format: YYYY-MM-DD)!");
+			throw new DatabaseException("Invalid date (Format: yyyy-MM-dd HH:mm:ss)!");
 		}
 
 		try {
@@ -336,7 +336,7 @@ public class Database {
 			throw new DatabaseException("Please fill in all fields!");
 		}
 		if (!isDate(delivery)) {
-			throw new DatabaseException("Invalid date (Format: YYYY-MM-DD)!");
+			throw new DatabaseException("Invalid date (Format: yyyy-MM-dd HH:mm:ss)!");
 		}
 
 		try {
@@ -431,7 +431,7 @@ public class Database {
 			throw new DatabaseException("Please fill in all fields!");
 		}
 		if (!isDate(from) || !isDate(to)) {
-			throw new DatabaseException("Invalid date (Format: YYYY-MM-DD)!");
+			throw new DatabaseException("Invalid date (Format: yyyy-MM-dd HH:mm:ss)!");
 		}
 
 		List<Order> orders = new LinkedList<Order>();
