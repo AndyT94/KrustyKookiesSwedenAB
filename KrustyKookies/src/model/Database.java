@@ -347,6 +347,7 @@ public class Database {
 		try {
 			conn.setAutoCommit(false);
 
+			
 			if (!hasPallet(pallet)) {
 				conn.setAutoCommit(true);
 				throw new DatabaseException("No such pallet id!");
