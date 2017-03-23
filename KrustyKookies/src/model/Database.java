@@ -1,16 +1,18 @@
 package model;
 
 import java.sql.*;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 
 /**
  * Database is a class that specifies the interface to the movie database. Uses
  * JDBC.
  */
 public class Database {
-	public static final String[] FACTORY = {"Deep-freeze storage", "Ramp"};
+	public static final String[] FACTORY = { "Deep-freeze storage", "Ramp" };
 	public static final int DEEP_FREEZE = 0;
 	public static final int RAMP = 1;
 
@@ -158,6 +160,7 @@ public class Database {
 			conn.setAutoCommit(false);
 
 			if (!hasRawMaterial(material)) {
+				conn.setAutoCommit(true);
 				throw new DatabaseException("No such raw material!");
 			}
 
@@ -255,6 +258,7 @@ public class Database {
 			conn.setAutoCommit(false);
 
 			if (!hasCustomer(customer)) {
+				conn.setAutoCommit(true);
 				throw new DatabaseException("No such customer!");
 			}
 
@@ -272,6 +276,7 @@ public class Database {
 			}
 			for (String key : cookies.keySet()) {
 				if (!hasRecipe(key)) {
+					conn.setAutoCommit(true);
 					throw new DatabaseException("No such recipe!");
 				}
 			}
@@ -343,18 +348,22 @@ public class Database {
 			conn.setAutoCommit(false);
 
 			if (!hasPallet(pallet)) {
+				conn.setAutoCommit(true);
 				throw new DatabaseException("No such pallet id!");
 			}
 			if (!hasOrder(order)) {
+				conn.setAutoCommit(true);
 				throw new DatabaseException("No such order id!");
 			}
 			if (isBlocked(pallet)) {
+				conn.setAutoCommit(true);
 				throw new DatabaseException("The pallet has been blocked!");
 			}
-			if(isShippedPallet(pallet)) {
+			if (isShippedPallet(pallet)) {
+				conn.setAutoCommit(true);
 				throw new DatabaseException("Pallet already shipped!");
 			}
-			
+
 			String sql = "INSERT INTO Shipments (order_id, pallet_id, date_of_delivery) VALUES (?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, order);
@@ -453,7 +462,7 @@ public class Database {
 	public List<Pallet> getPalletsInProduction() {
 		List<Pallet> list = new LinkedList<Pallet>();
 		try {
-			String sql = "SELECT * FROM pallets WHERE location <> ? AND location NOT IN (SELECT customer_name FROM Customers)";
+			String sql = "SELECT * FROM pallets WHERE location <> ? AND location NOT IN (SELECT customer_name FROM Customers) AND blocked = 0";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, FACTORY[RAMP]);
 			ResultSet rs = ps.executeQuery();
@@ -466,28 +475,144 @@ public class Database {
 		return list;
 	}
 
+	
+
 	public List<Pallet> searchRecipe(String recipe) {
 		List<Pallet> list = new LinkedList<Pallet>();
 		try {
-		String sql = "SELECT * FROM pallets WHERE recipe_name = ?";
-		PreparedStatement ps = conn.prepareStatement(sql);
-		ps.setString(1, recipe);
-		ResultSet rs = ps.executeQuery();
-		while (rs.next()){
-			list.add(new Pallet(rs));
-		}
-		
-		} catch (SQLException e ) {
+			String sql = "SELECT * FROM pallets WHERE recipe_name = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, recipe);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				list.add(new Pallet(rs));
+			}
+
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return list;
-		
-		
+
 	}
 
 	public void searchPalletId(String pallet_id) {
 		// TODO Auto-generated method stub
-		
 	}
+
+	public void createPallet(String recipe) throws DatabaseException {
+		if (recipe.isEmpty()) {
+			throw new DatabaseException("Please fill in all fields!");
+		}
+		recipe = recipe.trim();
+		if (!hasRecipe(recipe)) {
+			throw new DatabaseException("No such recipe!");
+		}
+
+		try {
+			conn.setAutoCommit(false);
+			List<Ingredient> ingredients = new LinkedList<Ingredient>();
+
+			String sql = "SELECT material_name, quantity FROM Ingredients WHERE recipe_name = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, recipe);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				ingredients.add(new Ingredient(rs));
+			}
+
+			if (!hasEnoughMaterial(ingredients)) {
+				conn.setAutoCommit(true);
+				throw new DatabaseException("Not enough raw material!");
+			}
+
+			insertPallet(recipe);
+			useIngredients(ingredients);
+
+			conn.setAutoCommit(true);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void useIngredients(List<Ingredient> ingredients) throws SQLException {
+		for (Ingredient i : ingredients) {
+			String sql = "SELECT material_amount FROM RawMaterials WHERE material_name = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, i.material);
+			ResultSet rs = ps.executeQuery();
+
+			Double inStorage = rs.getDouble("material_amount");
+			double required = 54 * i.quantity;
+			double newAmount = inStorage - required;
+
+			sql = "UPDATE RawMaterials SET material_amount = ? WHERE material_name = ?";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, Double.toString(newAmount));
+			ps.setString(2, i.material);
+			ps.executeUpdate();
+		}
+	}
+
+	private void insertPallet(String recipe) throws SQLException {
+		String sql = "INSERT INTO Pallets (location, production_date, blocked, recipe_name) VALUES (?, ?, ?, ?)";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setString(1, FACTORY[DEEP_FREEZE]);
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = new Date();
+		ps.setString(2, format.format(date));
+		ps.setString(3, "0");
+		ps.setString(4, recipe);
+		ps.executeUpdate();
+	}
+
+	// 5400 cookies per pallet
+	private boolean hasEnoughMaterial(List<Ingredient> ingredients) throws SQLException {
+		for (Ingredient i : ingredients) {
+			String sql = "SELECT material_amount FROM RawMaterials WHERE material_name = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, i.material);
+			ResultSet rs = ps.executeQuery();
+			Double inStorage = rs.getDouble("material_amount");
+			double required = 54 * i.quantity;
+
+			if (required > inStorage) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public void palletToRamp(String pallet_id) {
+		try {
+			conn.setAutoCommit(false);
+
+			String sql = "UPDATE Pallets SET location = ? WHERE pallet_id = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, FACTORY[RAMP]);
+			ps.setString(2, pallet_id);
+			ps.executeUpdate();
+
+			conn.setAutoCommit(true);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void blockPallet(String pallet_id) {
+		try {
+			conn.setAutoCommit(false);
+
+			String sql = "UPDATE Pallets SET blocked = ? WHERE pallet_id = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, "1");
+			ps.setString(2, pallet_id);
+			ps.executeUpdate();
+
+			conn.setAutoCommit(true);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

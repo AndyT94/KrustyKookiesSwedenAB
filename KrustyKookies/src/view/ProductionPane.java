@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +20,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import model.Database;
+import model.DatabaseException;
 import model.Pallet;
 
 public class ProductionPane extends BasicPane {
@@ -84,6 +86,18 @@ public class ProductionPane extends BasicPane {
 		return p;
 	}
 	
+	public JComponent createMiddlePanel() {
+		JPanel p = new JPanel(new FlowLayout());
+		JButton ramp = new JButton("To ramp");
+		JButton block = new JButton("Block pallet");
+		ramp.addActionListener(new RampHandler());
+		block.addActionListener(new BlockHandler());
+		
+		p.add(ramp);
+		p.add(block);
+		return p;
+	}
+	
 	public void entryActions() {
 		clearMessage();
 		fillProductionList();
@@ -120,7 +134,33 @@ public class ProductionPane extends BasicPane {
 	
 	class ActionHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-
+			String rec = recipe.getText();
+			try {
+				db.createPallet(rec);
+				entryActions();
+				displayMessage("Pallet of " + rec + " successfully created!");
+				recipe.setText("");
+			} catch (DatabaseException e1) {
+				displayMessage(e1.getMessage());
+			}
+		}
+	}
+	
+	class RampHandler implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			String pallet_id = productionList.getSelectedValue();
+			db.palletToRamp(pallet_id);
+			entryActions();
+			displayMessage("Pallet " + pallet_id + " in ramp!");
+		}
+	}
+	
+	class BlockHandler implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			String pallet_id = productionList.getSelectedValue();
+			db.blockPallet(pallet_id);
+			entryActions();
+			displayMessage("Pallet " + pallet_id + " is blocked!");
 		}
 	}
 }
