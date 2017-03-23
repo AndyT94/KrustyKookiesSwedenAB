@@ -125,9 +125,9 @@ public class ProductionPane extends BasicPane {
 			
 			try {
 				db.createPallet(rec);
-				displayMessage("Pallet of " + rec + " successfully created!");
 				entryActions();
-				clearFields();
+				displayMessage("Pallet of " + rec + " successfully created!");
+				recipe.setText("");
 			} catch (DatabaseException e1) {
 				displayMessage(e1.getMessage());
 			}

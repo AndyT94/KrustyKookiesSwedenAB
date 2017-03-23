@@ -1,9 +1,11 @@
 package model;
 
 import java.sql.*;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 
 /**
  * Database is a class that specifies the interface to the movie database. Uses
@@ -477,6 +479,7 @@ public class Database {
 		if (recipe.isEmpty()) {
 			throw new DatabaseException("Please fill in all fields!");
 		}
+		recipe = recipe.trim();
 		if (!hasRecipe(recipe)) {
 			throw new DatabaseException("No such recipe!");
 		}
@@ -498,7 +501,8 @@ public class Database {
 				throw new DatabaseException("Not enough raw material!");
 			}
 
-			
+			insertPallet(recipe);
+			useIngredients(ingredients);
 			
 			conn.setAutoCommit(true);
 		} catch (SQLException e) {
@@ -506,6 +510,37 @@ public class Database {
 		}
 	}
 
+	private void useIngredients(List<Ingredient> ingredients) throws SQLException {
+		for (Ingredient i : ingredients) {
+			String sql = "SELECT material_amount FROM RawMaterials WHERE material_name = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, i.material);
+			ResultSet rs = ps.executeQuery();
+			
+			Double inStorage = rs.getDouble("material_amount");
+			double required = 54 * i.quantity;
+			double newAmount = inStorage - required;
+			
+			sql = "UPDATE RawMaterials SET material_amount = ? WHERE material_name = ?";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, Double.toString(newAmount));
+			ps.setString(2, i.material);
+			ps.executeUpdate();
+		}
+	}
+
+	private void insertPallet(String recipe) throws SQLException {
+		String sql = "INSERT INTO Pallets (location, production_date, blocked, recipe_name) VALUES (?, ?, ?, ?)";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setString(1, FACTORY[DEEP_FREEZE]);
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = new Date();
+		ps.setString(2, format.format(date));
+		ps.setString(3, "0");
+		ps.setString(4, recipe);
+		ps.executeUpdate();
+	}
+	
 	// 5400 cookies per pallet
 	private boolean hasEnoughMaterial(List<Ingredient> ingredients) throws SQLException {
 		for (Ingredient i : ingredients) {

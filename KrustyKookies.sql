@@ -96,10 +96,10 @@ INSERT INTO Customers (customer_name, address) VALUES
 ('Skånekakor AB', 'Perstorp');
 
 INSERT INTO RawMaterials (material_name, material_amount, unit) VALUES
-('Flour', 4500, 'g'),
-('Butter', 4500, 'g'),
-('Icing sugar', 1900, 'g'),
-('Roasted, chopped nuts', 2250, 'g'),
+('Flour', 450000, 'g'),
+('Butter', 450000, 'g'),
+('Icing sugar', 190000, 'g'),
+('Roasted, chopped nuts', 225000, 'g'),
 ('Fine-ground nuts', 0, 'g'),
 ('Ground, roasted nuts', 0, 'g'),
 ('Bread crumbs', 0, 'g'),
@@ -158,10 +158,10 @@ INSERT INTO Ingredients (recipe_name, material_name, quantity) VALUES
 ('Berliner', 'Chocolate', 50);
 
 INSERT INTO RawDeliveries (delivery_date, material_name, delivery_amount) VALUES
-('2017-03-20 07:00:00', 'Flour', 4500),
-('2017-03-20 07:00:00', 'Butter', 4500),
-('2017-03-20 07:00:00', 'Icing sugar', 1900),
-('2017-03-21 07:00:00', 'Roasted, chopped nuts', 5000);
+('2017-03-20 07:00:00', 'Flour', 450000),
+('2017-03-20 07:00:00', 'Butter', 450000),
+('2017-03-20 07:00:00', 'Icing sugar', 190000),
+('2017-03-21 07:00:00', 'Roasted, chopped nuts', 500000);
 
 INSERT INTO Pallets (location, production_date, blocked, recipe_name) VALUES
 ('Deep-freeze storage', '2017-03-20 08:25:30', 0, 'Nut ring'),
