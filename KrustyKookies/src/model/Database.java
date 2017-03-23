@@ -557,4 +557,37 @@ public class Database {
 		}
 		return true;
 	}
+
+	public void palletToRamp(String pallet_id) {
+		try {
+			conn.setAutoCommit(false);
+
+			String sql = "UPDATE Pallets SET location = ? WHERE pallet_id = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, FACTORY[RAMP]);
+			ps.setString(2, pallet_id);
+			ps.executeUpdate();
+			
+			conn.setAutoCommit(true);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void blockPallet(String pallet_id) {
+		try {
+			conn.setAutoCommit(false);
+
+			String sql = "UPDATE Pallets SET blocked = ? WHERE pallet_id = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, "1");
+			ps.setString(2, pallet_id);
+			ps.executeUpdate();
+			
+			conn.setAutoCommit(true);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
 }
