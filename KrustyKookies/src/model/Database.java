@@ -631,4 +631,9 @@ public class Database {
 		}
 	}
 
+	public List<Pallet> searchDate(String from, String to) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
