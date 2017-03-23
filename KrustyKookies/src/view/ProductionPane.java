@@ -48,7 +48,7 @@ public class ProductionPane extends BasicPane {
 		JScrollPane p1 = new JScrollPane(productionList);
 
 		JPanel p = new JPanel();
-		p.setLayout(new GridLayout(1, 2));
+		p.setLayout(new GridLayout(1, 1));
 		p.add(p1);
 		return p;
 	}
