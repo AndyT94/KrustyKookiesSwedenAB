@@ -476,6 +476,31 @@ public class Database {
 		return list;
 	}
 
+	
+
+	public List<Pallet> searchRecipe(String recipe) {
+		List<Pallet> list = new LinkedList<Pallet>();
+		try {
+			String sql = "SELECT * FROM pallets WHERE recipe_name = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, recipe);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				list.add(new Pallet(rs));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+
+	public void searchPalletId(String pallet_id) {
+		// TODO Auto-generated method stub
+	}
+
 	public void createPallet(String recipe) throws DatabaseException {
 		if (recipe.isEmpty()) {
 			throw new DatabaseException("Please fill in all fields!");
@@ -504,7 +529,7 @@ public class Database {
 
 			insertPallet(recipe);
 			useIngredients(ingredients);
-			
+
 			conn.setAutoCommit(true);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -517,11 +542,11 @@ public class Database {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, i.material);
 			ResultSet rs = ps.executeQuery();
-			
+
 			Double inStorage = rs.getDouble("material_amount");
 			double required = 54 * i.quantity;
 			double newAmount = inStorage - required;
-			
+
 			sql = "UPDATE RawMaterials SET material_amount = ? WHERE material_name = ?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, Double.toString(newAmount));
@@ -541,7 +566,7 @@ public class Database {
 		ps.setString(4, recipe);
 		ps.executeUpdate();
 	}
-	
+
 	// 5400 cookies per pallet
 	private boolean hasEnoughMaterial(List<Ingredient> ingredients) throws SQLException {
 		for (Ingredient i : ingredients) {
@@ -568,7 +593,7 @@ public class Database {
 			ps.setString(1, FACTORY[RAMP]);
 			ps.setString(2, pallet_id);
 			ps.executeUpdate();
-			
+
 			conn.setAutoCommit(true);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -584,11 +609,11 @@ public class Database {
 			ps.setString(1, "1");
 			ps.setString(2, pallet_id);
 			ps.executeUpdate();
-			
+
 			conn.setAutoCommit(true);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 	}
+
 }

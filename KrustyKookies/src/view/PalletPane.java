@@ -4,6 +4,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -19,7 +20,9 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import model.Database;
+import model.DatabaseException;
 import model.Pallet;
+import view.OrderPane.SearchHandler;
 import view.ProductionPane.ActionHandler;
 
 public class PalletPane extends BasicPane {
@@ -35,9 +38,12 @@ public class PalletPane extends BasicPane {
 	private JButton[] buttons;
 	
 	
-	private JTextField recipe;
-	private JTextField pallet_id;
-	private JTextField date;
+	private JTextField[] middleTextFields;
+	private static final int MIDDLE_NBR_FIELDS = 4;
+	private static final int RECIPE = 0;
+	private static final int PALLET_ID = 1;
+	private static final int FROM = 2;
+	private static final int TO = 3;
 
 	PalletPane(Database db) {
 		super(db);
@@ -88,18 +94,51 @@ public class PalletPane extends BasicPane {
 	}
 	
 	public JComponent createMiddlePanel(){
-		JPanel p = new JPanel(new GridLayout(2,1));
-		JPanel panel = new JPanel(new GridLayout(1, 3));
-		panel.add(new JLabel("Recipe"));
-		recipe = new JTextField();
-		panel.add(recipe);
-		JButton button = new JButton("Search");
-		button.addActionListener(new ActionHandler());
-		panel.add(button);
-		p.add(panel);
-		p.add(messageLabel);
-		return p;
+		middleTextFields = new JTextField[ MIDDLE_NBR_FIELDS];
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(3, 1));
 		
+		JPanel recipe = new JPanel(new GridLayout(1, 3));
+		JLabel recipeLabel = new JLabel("Recipe");
+		middleTextFields[RECIPE] = new JTextField();
+		recipe.add(recipeLabel);
+		recipe.add(middleTextFields[RECIPE]);
+		panel.add(recipe);
+		JButton recipeButton = new JButton("Search");
+		recipeHandler actHand = new recipeHandler();
+		recipeButton.addActionListener(actHand);
+		panel.add(recipeButton);
+		
+		
+		JPanel palletId = new JPanel(new GridLayout(1, 3));
+		JLabel palletIdLabel = new JLabel("Pallet Id");
+		middleTextFields[PALLET_ID] = new JTextField();
+		palletId.add(palletIdLabel);
+		palletId.add(middleTextFields[PALLET_ID]);
+		panel.add(palletId);
+		JButton palletIdButton = new JButton("Search");
+		idHandler actHand1 = new idHandler();
+		palletIdButton.addActionListener(actHand1);
+		panel.add(palletIdButton);
+		
+		
+		JPanel date = new JPanel(new GridLayout(1, 5));
+		JLabel fromLabel = new JLabel("Date from");
+		middleTextFields[FROM] = new JTextField();
+		date.add(fromLabel);
+		date.add(middleTextFields[FROM]);
+		JLabel toLabel = new JLabel("Date to");
+		middleTextFields[TO] = new JTextField();
+		date.add(toLabel);
+		date.add(middleTextFields[TO]);
+		
+		panel.add(date);
+		JButton dateButton = new JButton("Search");
+		dateHandler actHand2 = new dateHandler();
+		dateButton.addActionListener(actHand2);
+		panel.add(dateButton);
+	
+		return panel;
 	}
 
 	public void entryActions() {
@@ -167,5 +206,48 @@ public class PalletPane extends BasicPane {
 				displayMessage("");
 			}
 		}
+	}
+	
+	class recipeHandler implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+			String recipe = middleTextFields[RECIPE].getText();
+			palletListModel.removeAllElements();
+			List<Pallet> pallets = db.searchRecipe(recipe);
+			for(Pallet p: pallets){
+				palletListModel.addElement(Integer.toString(p.pallet_id));
+			}
+			middleTextFields[RECIPE].setText("");
+			
+		}
+		
+		
+		
+	}
+	
+	class idHandler implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+			String pallet_id = middleTextFields[PALLET_ID].getText();
+			db.searchPalletId(pallet_id);
+			clearFields();
+			
+		}
+		
+		
+		
+	}
+	
+	class dateHandler implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+			String from = middleTextFields[FROM].getText();
+			String to = middleTextFields[TO].getText();
+			clearFields();
+			
+		}
+		
+		
+		
 	}
 }
