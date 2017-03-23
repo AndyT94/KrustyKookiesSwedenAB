@@ -465,4 +465,29 @@ public class Database {
 		}
 		return list;
 	}
+
+	public List<Pallet> searchRecipe(String recipe) {
+		List<Pallet> list = new LinkedList<Pallet>();
+		try {
+		String sql = "SELECT * FROM pallets WHERE recipe_name = ?";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setString(1, recipe);
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()){
+			list.add(new Pallet(rs));
+		}
+		
+		} catch (SQLException e ) {
+			e.printStackTrace();
+		}
+		
+		return list;
+		
+		
+	}
+
+	public void searchPalletId(String pallet_id) {
+		// TODO Auto-generated method stub
+		
+	}
 }
