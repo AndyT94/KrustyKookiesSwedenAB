@@ -10,7 +10,7 @@ import java.util.*;
  * JDBC.
  */
 public class Database {
-	public static final String[] FACTORY = {"Deep-freeze storage", "Ramp"};
+	public static final String[] FACTORY = { "Deep-freeze storage", "Ramp" };
 	public static final int DEEP_FREEZE = 0;
 	public static final int RAMP = 1;
 
@@ -158,6 +158,7 @@ public class Database {
 			conn.setAutoCommit(false);
 
 			if (!hasRawMaterial(material)) {
+				conn.setAutoCommit(true);
 				throw new DatabaseException("No such raw material!");
 			}
 
@@ -255,6 +256,7 @@ public class Database {
 			conn.setAutoCommit(false);
 
 			if (!hasCustomer(customer)) {
+				conn.setAutoCommit(true);
 				throw new DatabaseException("No such customer!");
 			}
 
@@ -272,6 +274,7 @@ public class Database {
 			}
 			for (String key : cookies.keySet()) {
 				if (!hasRecipe(key)) {
+					conn.setAutoCommit(true);
 					throw new DatabaseException("No such recipe!");
 				}
 			}
@@ -343,18 +346,22 @@ public class Database {
 			conn.setAutoCommit(false);
 
 			if (!hasPallet(pallet)) {
+				conn.setAutoCommit(true);
 				throw new DatabaseException("No such pallet id!");
 			}
 			if (!hasOrder(order)) {
+				conn.setAutoCommit(true);
 				throw new DatabaseException("No such order id!");
 			}
 			if (isBlocked(pallet)) {
+				conn.setAutoCommit(true);
 				throw new DatabaseException("The pallet has been blocked!");
 			}
-			if(isShippedPallet(pallet)) {
+			if (isShippedPallet(pallet)) {
+				conn.setAutoCommit(true);
 				throw new DatabaseException("Pallet already shipped!");
 			}
-			
+
 			String sql = "INSERT INTO Shipments (order_id, pallet_id, date_of_delivery) VALUES (?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, order);
@@ -464,5 +471,55 @@ public class Database {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	public void createPallet(String recipe) throws DatabaseException {
+		if (recipe.isEmpty()) {
+			throw new DatabaseException("Please fill in all fields!");
+		}
+		if (!hasRecipe(recipe)) {
+			throw new DatabaseException("No such recipe!");
+		}
+
+		try {
+			conn.setAutoCommit(false);
+			List<Ingredient> ingredients = new LinkedList<Ingredient>();
+
+			String sql = "SELECT material_name, quantity FROM Ingredients WHERE recipe_name = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, recipe);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				ingredients.add(new Ingredient(rs));
+			}
+
+			if (!hasEnoughMaterial(ingredients)) {
+				conn.setAutoCommit(true);
+				throw new DatabaseException("Not enough raw material!");
+			}
+
+			
+			
+			conn.setAutoCommit(true);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	// 5400 cookies per pallet
+	private boolean hasEnoughMaterial(List<Ingredient> ingredients) throws SQLException {
+		for (Ingredient i : ingredients) {
+			String sql = "SELECT material_amount FROM RawMaterials WHERE material_name = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, i.material);
+			ResultSet rs = ps.executeQuery();
+			Double inStorage = rs.getDouble("material_amount");
+			double required = 54 * i.quantity;
+
+			if (required > inStorage) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

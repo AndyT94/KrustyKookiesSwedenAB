@@ -19,6 +19,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import model.Database;
+import model.DatabaseException;
 import model.Pallet;
 
 public class ProductionPane extends BasicPane {
@@ -120,7 +121,16 @@ public class ProductionPane extends BasicPane {
 	
 	class ActionHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-
+			String rec = recipe.getText();
+			
+			try {
+				db.createPallet(rec);
+				displayMessage("Pallet of " + rec + " successfully created!");
+				entryActions();
+				clearFields();
+			} catch (DatabaseException e1) {
+				displayMessage(e1.getMessage());
+			}
 		}
 	}
 }
