@@ -84,10 +84,10 @@ public class DeliveryPane extends BasicPane {
 	public void entryActions() {
 		text.setText("");
 		List<RawMaterialDelivery> deliveries = db.getRawMaterialsDeliveries();
-		text.append(String.format("%-8s\t %-21s\t %4s\n", "Date", "Raw material", "Amount"));
+		text.append(String.format("%-20s\t %-8s\t %4s\n", "Raw material", "Amount", "Delivery date"));
 		text.append("\n");
 		for (RawMaterialDelivery r : deliveries) {
-			text.append(String.format("%-8s\t %-21s\t %4s\n", r.date, r.material, r.amount));
+			text.append(String.format("%-20s\t %-8s\t %4s\n", r.material, r.amount, r.date));
 		}
 	}
 
@@ -101,6 +101,7 @@ public class DeliveryPane extends BasicPane {
 				db.addDelivery(date, material, amount);
 				displayMessage("Raw material inserted into storage!");
 				clearFields();
+				entryActions();
 			} catch (DatabaseException exception) {
 				displayMessage(exception.getMessage());
 			}
