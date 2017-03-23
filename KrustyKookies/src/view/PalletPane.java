@@ -229,8 +229,12 @@ public class PalletPane extends BasicPane {
 
 		public void actionPerformed(ActionEvent e) {
 			String pallet_id = middleTextFields[PALLET_ID].getText();
-			db.searchPalletId(pallet_id);
-			clearFields();
+			palletListModel.removeAllElements();
+			List<Pallet> pallets = db.searchPalletId(pallet_id);
+			for(Pallet p: pallets){
+				palletListModel.addElement(Integer.toString(p.pallet_id));
+			}
+			middleTextFields[PALLET_ID].setText("");
 			
 		}
 		
@@ -243,7 +247,14 @@ public class PalletPane extends BasicPane {
 		public void actionPerformed(ActionEvent e) {
 			String from = middleTextFields[FROM].getText();
 			String to = middleTextFields[TO].getText();
-			clearFields();
+			palletListModel.removeAllElements();
+			List<Pallet> pallets = db.searchDate(from,to);
+			for(Pallet p: pallets){
+				palletListModel.addElement(Integer.toString(p.pallet_id));
+			}
+			middleTextFields[FROM].setText("");
+			middleTextFields[TO].setText("");
+			
 			
 		}
 		
