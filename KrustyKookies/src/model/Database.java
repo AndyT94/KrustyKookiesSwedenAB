@@ -10,14 +10,9 @@ import java.util.*;
  * JDBC.
  */
 public class Database {
-	public static final String[] FACTORY = {"Production", "Freezing", "Packaging in bags", "Packaging in cartons", "Loading on pallets", "Deep-freeze storage", "Ramp"};
-	public static final int PRODUCTION = 0;
-	public static final int FREEZING = 1;
-	public static final int BAGS = 2;
-	public static final int CARTONS = 3;
-	public static final int PALLETS = 4;
-	public static final int DEEP_FREEZE = 5;
-	public static final int RAMP = 6;
+	public static final String[] FACTORY = {"Deep-freeze storage", "Ramp"};
+	public static final int DEEP_FREEZE = 0;
+	public static final int RAMP = 1;
 
 	/**
 	 * The database connection.
