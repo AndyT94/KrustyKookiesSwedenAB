@@ -453,7 +453,7 @@ public class Database {
 	public List<Pallet> getPalletsInProduction() {
 		List<Pallet> list = new LinkedList<Pallet>();
 		try {
-			String sql = "SELECT * FROM pallets WHERE location <> ? AND location NOT IN (SELECT customer_name FROM Customers)";
+			String sql = "SELECT * FROM pallets WHERE location <> ? AND location NOT IN (SELECT customer_name FROM Customers) AND blocked = 0";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, FACTORY[RAMP]);
 			ResultSet rs = ps.executeQuery();
