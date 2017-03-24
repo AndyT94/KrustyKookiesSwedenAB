@@ -27,7 +27,7 @@ specification the company has given us:
 
 * You can check the amount in store of each ingredient, and to see when, and how much of, an ingredient was last delivered into storage
 
-* pallets in the deep-freeze storage may be blocked, An order to block a pallet will always come before the pallet has been delivered.
+* Pallets in the deep-freeze storage may be blocked
 
 * You are able to trace pallets and get all their information based on their number, contents or
  which pallets that have been produced during a certain time interval.
@@ -40,7 +40,7 @@ specification the company has given us:
 
  * You can see all orders that are to be delivered during a specific time period
 
- * delivered pallets are updated with customer data and date of delivery.
+ * Delivered pallets are updated with customer data and date of delivery.
 
 
 ## System outline
