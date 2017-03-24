@@ -22,8 +22,6 @@ import javax.swing.event.ListSelectionListener;
 import model.Database;
 import model.DatabaseException;
 import model.Pallet;
-import view.OrderPane.SearchHandler;
-import view.ProductionPane.ActionHandler;
 
 public class PalletPane extends BasicPane {
 	private static final long serialVersionUID = 1;
@@ -248,7 +246,13 @@ public class PalletPane extends BasicPane {
 			String from = middleTextFields[FROM].getText();
 			String to = middleTextFields[TO].getText();
 			palletListModel.removeAllElements();
-			List<Pallet> pallets = db.searchDate(from,to);
+			List<Pallet> pallets = null;
+			try {
+				pallets = db.searchDate(from,to);
+			} catch (DatabaseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			for(Pallet p: pallets){
 				palletListModel.addElement(Integer.toString(p.pallet_id));
 			}

@@ -631,9 +631,30 @@ public class Database {
 		}
 	}
 
-	public List<Pallet> searchDate(String from, String to) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Pallet> searchDate(String from, String to) throws DatabaseException {
+		List<Pallet> list = new LinkedList<Pallet>();
+		if (from.isEmpty() || to.isEmpty()){
+			throw new DatabaseException("Please fill in all fields!");
+		}
+		if (!isDate(from) || !isDate(to)){
+			throw new DatabaseException("Invalid date (Format: yyyy-MM-dd HH:mm:ss)!");
+		}
+		try {
+			String sql = "SELECT * FROM pallets p,pallets p1 WHERE p.production_date = ? <= p1.production_date = ? ";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, from);
+			ps.setString(2, to);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				list.add(new Pallet(rs));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return list;
+		
 	}
 
 }
