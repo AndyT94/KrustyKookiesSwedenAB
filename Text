@@ -1,4 +1,4 @@
-The database manager used is SQLite. The tabs and windows in the GUI are inspired and is a modified version of the solution to lab 3. The GUI calls methods in the Database class which executes the query and returns data if any. Furthermore, if the input of the user fails to compile with the format the Database class will throw an exception and the error message will be shown in the GUI.
+The database manager used is SQLite. The tabs and windows in the GUI are inspired and is a modified version of the solution to lab 3. The GUI calls methods in the Database class which executes the query and returns data if any. Furthermore, if the input of the user fails to compile with the format the Database class will throw an exception and the error message will be shown in the GUI. For testing purposes the storage and delivery tab were added.
 
 
 
