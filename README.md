@@ -44,6 +44,7 @@ specification the company has given us:
 
 
 ## System outline
+The database manager used is SQLite. The tabs and windows in the GUI are inspired and is a modified version of the solution to lab 3. The GUI calls methods in the Database class which executes the query and returns data if any. Furthermore, if the input of the user fails to compile with the format the Database class will throw an exception and the error message will be shown in the GUI. For testing purposes the storage and delivery tab were added.
 
 ## E/R diagram
 An E/R diagram of the system can be seen in the figure below.
@@ -51,6 +52,8 @@ An E/R diagram of the system can be seen in the figure below.
 ![ER](ER.png)
 
 ## Relational model
+The relational model can be seen below. The primary keys are in bold and the foreign keys are in italic.
+
 Customers(<strong>customer_name</strong>, address)
 
 RawMaterials(<strong>material_name</strong>, material_amount, unit)
@@ -146,3 +149,12 @@ CREATE TABLE Shipments (
 ```
 
 ## User's manual
+In order to run the program the following command is written in the terminal
+
+```
+	java -jar krustykookies.jar
+```
+
+The program itself is pretty trivial to use. The production tab is used for creating pallets and blocking or moving them to the ramp. The pallet tab is used to keep track and search for specific pallets. The order tab shows the orders and the storage tab shows the raw material storage. In the delivery tab you can add raw material deliveries and in shipment you can mark a pallet as delivered to a customer. In the figure below the program is shown.
+
+![Program](programstart.png)
