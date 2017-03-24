@@ -22,8 +22,6 @@ import javax.swing.event.ListSelectionListener;
 import model.Database;
 import model.DatabaseException;
 import model.Pallet;
-import view.OrderPane.SearchHandler;
-import view.ProductionPane.ActionHandler;
 
 public class PalletPane extends BasicPane {
 	private static final long serialVersionUID = 1;

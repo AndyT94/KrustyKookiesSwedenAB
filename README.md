@@ -7,10 +7,44 @@ Andy Truong D13, dat13at1@student.lu.se
 Aleksandar Simeunovic D13, dat13asi@student.lu.se
 
 ## Introduction
+So the objective of this project has been to model and implement a database for
+supervision of production and delivery of cookies produced by a company. The company
+and its different routines where in need of a digitalisation because their scope
+has grow since they have been bought by Krusty Kookies and could not to their procedures
+manually anymore.
 
 ## Requirements
+Here is a list of requirements we have fullfilled according to their requirements
+specification the company has given us:
+
+* A pallet is created when the label is read at the entrance to the deep-freeze storage
+
+* The pallet number, product name, and date and time of production is registered in the database. The pallet number is unique.
+
+* At any time you are able to check how many pallets of a product that have been produced during a specific time
+
+* When a pallet is produced, the raw materials storage is updated
+
+* You can check the amount in store of each ingredient, and to see when, and how much of, an ingredient was last delivered into storage
+
+* Pallets in the deep-freeze storage may be blocked
+
+* You are able to trace pallets and get all their information based on their number, contents or
+ which pallets that have been produced during a certain time interval.
+
+ * You could find out which products that are blocked, and also which pallets that contain a certain blocked product
+
+ * You are able to check which pallets that have been delivered to a given customer, and the date and time of delivery.
+
+ * Orders are registered in the database.
+
+ * You can see all orders that are to be delivered during a specific time period
+
+ * Delivered pallets are updated with customer data and date of delivery.
+
 
 ## System outline
+The database manager used is SQLite. The tabs and windows in the GUI are inspired and is a modified version of the solution to lab 3. The GUI calls methods in the Database class which executes the query and returns data if any. Furthermore, if the input of the user fails to compile with the format the Database class will throw an exception and the error message will be shown in the GUI. For testing purposes the storage and delivery tab were added.
 
 ## E/R diagram
 An E/R diagram of the system can be seen in the figure below.
@@ -18,6 +52,8 @@ An E/R diagram of the system can be seen in the figure below.
 ![ER](ER.png)
 
 ## Relational model
+The relational model can be seen below. The primary keys are in bold and the foreign keys are in italic.
+
 Customers(<strong>customer_name</strong>, address)
 
 RawMaterials(<strong>material_name</strong>, material_amount, unit)
@@ -113,3 +149,12 @@ CREATE TABLE Shipments (
 ```
 
 ## User's manual
+In order to run the program the following command is written in the terminal
+
+```
+	java -jar krustykookies.jar
+```
+
+The program itself is pretty trivial to use. The production tab is used for creating pallets and blocking or moving them to the ramp. The pallet tab is used to keep track and search for specific pallets. The order tab shows the orders and the storage tab shows the raw material storage. In the delivery tab you can add raw material deliveries and in shipment you can mark a pallet as delivered to a customer. In the figure below the program is shown.
+
+![Program](programstart.png)
