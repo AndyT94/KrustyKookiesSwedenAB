@@ -7,8 +7,41 @@ Andy Truong D13, dat13at1@student.lu.se
 Aleksandar Simeunovic D13, dat13asi@student.lu.se
 
 ## Introduction
+So the objective of this project has been to model and implement a database for
+supervision of production and delivery of cookies produced by a company. The company
+and its different routines where in need of a digitalisation because their scope
+has grow since they have been bought by Krusty Kookies and could not to their procedures
+manually anymore.
 
 ## Requirements
+Here is a list of requirements we have fullfilled according to their requirements
+specification the company has given us:
+
+* A pallet is created when the label is read at the entrance to the deep-freeze storage
+
+* The pallet number, product name, and date and time of production is registered in the database. The pallet number is unique.
+
+* At any time you are able to check how many pallets of a product that have been produced during a specific time
+
+* When a pallet is produced, the raw materials storage is updated
+
+* You can check the amount in store of each ingredient, and to see when, and how much of, an ingredient was last delivered into storage
+
+* pallets in the deep-freeze storage may be blocked, An order to block a pallet will always come before the pallet has been delivered.
+
+* You are able to trace pallets and get all their information based on their number, contents or
+ which pallets that have been produced during a certain time interval.
+
+ * You could find out which products that are blocked, and also which pallets that contain a certain blocked product
+
+ * You are able to check which pallets that have been delivered to a given customer, and the date and time of delivery.
+
+ * Orders are registered in the database.
+
+ * You can see all orders that are to be delivered during a specific time period
+
+ * delivered pallets are updated with customer data and date of delivery.
+
 
 ## System outline
 
