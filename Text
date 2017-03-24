@@ -13,4 +13,6 @@ In order to run the program the following command is written in the terminal
 	java -jar krustykookies.jar
 ```
 
-The program itself is pretty trivial to use. The production tab is used for creating pallets and blocking or moving them to the ramp. The pallet tab is used to keep track and search for specific pallets. The order tab shows the orders and the storage tab shows the raw material storage. In the delivery tab you can add raw material deliveries and in shipment you can mark a pallet as delivered to a customer.
+The program itself is pretty trivial to use. The production tab is used for creating pallets and blocking or moving them to the ramp. The pallet tab is used to keep track and search for specific pallets. The order tab shows the orders and the storage tab shows the raw material storage. In the delivery tab you can add raw material deliveries and in shipment you can mark a pallet as delivered to a customer. In the figure below the program is shown.
+
+![Program](programstart.png)
