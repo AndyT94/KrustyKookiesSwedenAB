@@ -640,7 +640,7 @@ public class Database {
 			throw new DatabaseException("Invalid date (Format: yyyy-MM-dd HH:mm:ss)!");
 		}
 		try {
-			String sql = "SELECT * FROM pallets p,pallets p1 WHERE p.production_date = ? <= p1.production_date = ? ";
+			String sql = "SELECT * FROM pallets WHERE production_date >= ? AND production_date <= ?";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, from);
 			ps.setString(2, to);

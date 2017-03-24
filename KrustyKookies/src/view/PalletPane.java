@@ -252,8 +252,7 @@ public class PalletPane extends BasicPane {
 			try {
 				pallets = db.searchDate(from,to);
 			} catch (DatabaseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				displayMessage(e1.getMessage());
 			}
 			for(Pallet p: pallets){
 				palletListModel.addElement(Integer.toString(p.pallet_id));
